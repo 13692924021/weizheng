@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <Table :columns="columns" :list="list" ></Table>
+        <Table :columns="columns" :list="list" @on-check="onCheck"></Table>
     </div>
 </template>
 
@@ -12,6 +12,9 @@ export default {
     data () {
         return {
             columns: [
+                {
+                    selection: true,
+                },
                 { 
                     title: "id",
                     key: "id",
@@ -80,6 +83,11 @@ export default {
                     dob: "1999-9"
                 },
             ]
+        }
+    },
+    methods:{
+        onCheck (e) {
+            console.log(e)
         }
     },
     components: {

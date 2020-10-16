@@ -9,6 +9,7 @@
         padding: 0.5vw 0;
         background: #102452;
         color: #FFF;
+        position: relative;
     }
     .ROW {
         display: flex;
@@ -78,11 +79,45 @@
         max-width:12vw;
         padding: 0.1vw 0.3vw;
     }
+    .flex {
+        display:flex;
+    }
+    .checkBox {
+        user-select: none;
+        width: 1vw;
+        height: 1vw;
+        border: solid #666666 1px;
+        margin: auto;
+        cursor: pointer;
+        background: #FFF;
+        border-radius: 3px;
+        &:hover {
+            box-shadow: 0 0 3px #102452;
+        }
+        >div {
+            width: 100%;
+            height: 100%;
+            background: #102452;
+            >img {
+                width: 100%;
+                height: 100%;
+            }   
+        }
+    }
+    .cLeft {
+        position: absolute;
+        left: 1.4%;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 </style>
 
 <template>
     <div class="TableWrap">
         <div class="THEAD" >
+            <div :class="['checkBox', 'cLeft']" @click="clickAllCheck">
+                <div v-if="checkAll"><img src="./static/img/check.png"></div>
+            </div>
             <div v-for="(item,i) in column" :style="{ width:item.width ? item.width :  '100%' }" :key="i" v-html="item.title"></div>
         </div>
 
@@ -105,7 +140,12 @@
 
         <div class="TBODY">
             <div class="ROW" v-for="(item,i) in tableData" :key="i" >
-                <div v-for="(c,i) in column" :key="i" :style="{ width:c.width ? c.width :  '100%' }">{{item[c.key]}}</div>
+                <div v-for="(c,i) in column" :key="i" :style="{ width:c.width ? c.width :  '100%' }">
+                    <div v-if="c.selection" class="checkBox" @click="clickCheckBox(item)">
+                        <div v-if="item.check"><img src="./static/img/check.png"></div>
+                    </div>
+                    <div v-else>{{item[c.key]}}</div>
+                </div>
             </div>
         </div>
     </div>
@@ -125,6 +165,7 @@ export default {
         return {
             column: [],
             tableData: [],
+            checkAll: false
         }
     },
     props: {
@@ -146,6 +187,19 @@ export default {
         this.preSelect()
     },
     methods:{
+        clickAllCheck () {
+            this.checkAll = !this.checkAll
+            this.tableData.forEach(item => {
+                item.check = this.checkAll
+            })
+            this.$emit("on-check", this.tableData.filter(item => item.check))
+        },
+        clickCheckBox (item) {
+            item.check = !item.check
+            this.column = [...this.column]
+            this.checkAll = this.tableData.every(item => { return item.check == true })
+            this.$emit("on-check", this.tableData.filter(item => item.check))
+        },
         //创建下拉框的数据
         preSelect () {
             this.column.forEach(c => {
@@ -157,6 +211,10 @@ export default {
                         arr.push(item[key])
                     })
                     c.options = [...new Set(arr)]
+                }
+                if (c.selection) {
+                    c.width="20%"
+                    c.noSearch = true
                 }
             })
             
