@@ -20,6 +20,9 @@
             background: #e2dfdf !important;
         }
         >div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 0.5vw 0;
             border-right: solid #CCC 1px;
         }
@@ -106,7 +109,7 @@
     }
     .cLeft {
         position: absolute;
-        left: 1.4%;
+        left: 0.4%;
         top: 50%;
         transform: translateY(-50%);
     }
@@ -131,7 +134,7 @@
                     </select>
                 </div>
                 <div class="inputWrap" v-show="!item.noSearch" v-else>
-                    <input type="text" v-model="item.keyword" @input=filterData >
+                    <input type="text" v-model="item.keyword" @input="filterData" :placeholder="'搜索' + item.title" >
                     <img src="./static/img/close.png" @click="clearKeyword(item)">
                 </div>
                 
@@ -143,6 +146,9 @@
                 <div v-for="(c,i) in column" :key="i" :style="{ width:c.width ? c.width :  '100%' }">
                     <div v-if="c.selection" class="checkBox" @click="clickCheckBox(item)">
                         <div v-if="item.check"><img src="./static/img/check.png"></div>
+                    </div>
+                    <div v-else-if="c.slot">
+                        <slot :name="c.slot" :row="item"></slot>
                     </div>
                     <div v-else>{{item[c.key]}}</div>
                 </div>
@@ -186,6 +192,13 @@ export default {
         this.column = JSON.parse(JSON.stringify(this.columns))
         this.preSelect()
     },
+    watch:{
+        list () {
+            this.tableData = JSON.parse(JSON.stringify(this.list))
+            this.column = JSON.parse(JSON.stringify(this.columns))
+            this.preSelect()
+        }
+    },
     methods:{
         clickAllCheck () {
             this.checkAll = !this.checkAll
@@ -213,7 +226,7 @@ export default {
                     c.options = [...new Set(arr)]
                 }
                 if (c.selection) {
-                    c.width="20%"
+                    c.width="10%"
                     c.noSearch = true
                 }
             })

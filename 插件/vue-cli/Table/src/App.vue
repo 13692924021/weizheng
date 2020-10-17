@@ -1,6 +1,14 @@
+<style lang="less" scoped>
+
+</style>
+
 <template>
     <div id="app">
-        <Table :columns="columns" :list="list" @on-check="onCheck"></Table>
+        <Table :columns="columns" :list="list" @on-check="onCheck">
+            <template slot="btn" >
+                <button>按钮</button>
+            </template>
+        </Table>
     </div>
 </template>
 
@@ -28,23 +36,34 @@ export default {
                     // width: "8%",
                 },
                 {
-                    title: "年龄",
-                    key: "age",
+                    title: "所属分类",
+                    key: "categoryName",
                     searchType: "select"
                     // width: "20%",
                 },
                 {
-                    title: "生日",
-                    key: "dob",
+                    title: "品牌",
+                    key: "brand",
                     // width: "20%",
                     noSearch: true
                 },
                 {
-                    title: "地区",
-                    key: "place",
+                    title: "产地",
+                    key: "country",
                     searchType: "select"
                     // width: "20%",
                 },
+                {
+                    title: "创建时间",
+                    key: "createdAt",
+                    searchType: "select"
+                    // width: "20%",
+                },
+                {
+                    title: "操作",
+                    noSearch: true,
+                    slot:"btn"
+                }
             ],
             list: [
                 {
@@ -85,7 +104,21 @@ export default {
             ]
         }
     },
+    created () {
+        this.getData()
+        this.list = []
+    },
     methods:{
+        getData () {
+            this.$axios({
+                url: "http://167.179.100.249:9091/v1/product"
+            }).then(res => {
+                console.log(res)
+                if (res.data.products) {
+                    this.list = res.data.products
+                }
+            })
+        },
         onCheck (e) {
             console.log(e)
         }
@@ -96,6 +129,4 @@ export default {
 }
 </script>
 
-<style>
 
-</style>
