@@ -41,7 +41,7 @@
             padding: 0.5vw 0;
             border-right: solid #CCC 1px;
             >.inputWrap {
-                width: 100%;
+                width: 90%;
                 max-width: 12vw;
                 margin: auto;
                 // border: solid red 1px;
@@ -113,6 +113,12 @@
         top: 50%;
         transform: translateY(-50%);
     }
+    .selectTimeWrap {
+        >select {
+            width: 33%;
+            padding: 0.1vw 0;
+        }
+    }
 </style>
 
 <template>
@@ -124,13 +130,27 @@
             <div v-for="(item,i) in column" :style="{ width:item.width ? item.width :  '100%' }" :key="i" v-html="item.title"></div>
         </div>
 
-        <div class="searchWrap" v-if="searchable && tableData.length">
+        <div class="searchWrap" v-if="searchable">
             <div v-for="(item,i) in column" :key="i" :style="{ width:item.width ? item.width :  '100%' }">
-                <div v-if="item.searchType=='select'" v-show="!item.noSearch">
+                <div v-if="item.searchType=='select' && !item.time" v-show="!item.noSearch">
                     <select v-model="item.keyword" @change="selectColumns" class="tableSelect">
                         <!-- <option value="" selected disabled>请选择{{item.title}}</option> -->
                         <option value="" selected>全部{{item.title}}</option>
                         <option v-for="(item,i) in item.options" :key="i" :value="item">{{item}}</option>
+                    </select>
+                </div>
+                <div v-else-if="item.time" class="inputWrap selectTimeWrap" v-show="!item.noSearch">
+                    <select v-model="year" @change="selectColumns">
+                        <option value="" selected>年份</option>
+                        <option v-for="(item,i) in yearList" :key="i" :value="item">{{item}}</option>
+                    </select>
+                    <select v-model="month" @change="selectColumns">
+                        <option value="" selected>月份</option>
+                        <option v-for="(item,i) in monthList" :key="i" :value="item">{{item}}</option>
+                    </select>
+                    <select v-model="date" @change="selectColumns">
+                        <option value="" selected>日期</option>
+                        <option v-for="(item,i) in dateList" :key="i" :value="item">{{item}}</option>
                     </select>
                 </div>
                 <div class="inputWrap" v-show="!item.noSearch" v-else>
@@ -163,6 +183,7 @@
             //  key: "key"
             //  width:  columns宽度 (任何单位)
             //  noSearch: true    (不显示搜索框)
+            //  time: true  ( 是时间 )
 
 // searchable: flase (不显示搜索框,默认显示)
 export default {
@@ -171,7 +192,14 @@ export default {
         return {
             column: [],
             tableData: [],
-            checkAll: false
+            checkAll: false,
+            yearList: [],
+            monthList: ["01","02","03","04","05","06","07","08","09","10","11","12"],
+            dateList: [],
+            year: "",
+            month: "",
+            date: "",
+            timeKey: ""  // 记录数据的创建时间的key (例如：createdAt)
         }
     },
     props: {
@@ -188,18 +216,40 @@ export default {
         }
     },
     created () {
-        this.tableData = JSON.parse(JSON.stringify(this.list))
-        this.column = JSON.parse(JSON.stringify(this.columns))
-        this.preSelect()
+        this.dataInit()
+        this.timeInit()
     },
     watch:{
         list () {
-            this.tableData = JSON.parse(JSON.stringify(this.list))
-            this.column = JSON.parse(JSON.stringify(this.columns))
-            this.preSelect()
+            this.dataInit()
+        },
+        columns () {
+            this.dataInit()
         }
     },
     methods:{
+        // 数据初始化
+        dataInit () {
+            this.tableData = JSON.parse(JSON.stringify(this.list))
+            this.column = JSON.parse(JSON.stringify(this.columns))
+            this.preSelect()
+            this.filterData()
+        },
+        //初始化时间
+        timeInit () {
+            let yearList = []
+            let y = new Date().getFullYear()
+            for(let i = 0;i< 10; i++) {
+                yearList.push(String(y))
+                y--
+            }
+            this.yearList = yearList
+            let dateList = []
+            for(let i = 0;i< 31; i++) {
+                dateList.push(String(i+1))
+            }
+            this.dateList = dateList
+        },
         clickAllCheck () {
             this.checkAll = !this.checkAll
             this.tableData.forEach(item => {
@@ -217,6 +267,34 @@ export default {
         preSelect () {
             this.column.forEach(c => {
                 c.keyword = ""
+                
+                if (c.selection) {
+                    c.width="15%"
+                    c.noSearch = true
+                }
+                if(c.time) {
+                    let key= c.key
+                    this.timeKey = key
+                    // this.tableData.forEach(item => {
+                    //     let D = new Date(item[key])
+                    //     console.log(D)
+                    //     let y = D.getFullYear()
+                    //     let m = D.getMonth() + 1
+                    //     let d = D.getDate()
+                    //     let h = D.getHours()
+                    //     let min = D.getMinutes()
+                    //     if (m < 10) { m = "0" + m }
+                    //     if (d < 10) { d = "0" + d }
+                    //     if (h < 10) { h = "0" + h }
+                    //     if (min < 10) { min = "0" + min }
+                    //     let timeStr = y + "-" + m + "-" + d
+                    //     if (h != 0 && min != 0) {
+                    //         timeStr += " " + h + ":"
+                    //         timeStr += min
+                    //     }
+                    //     item[key] = timeStr
+                    // })
+                }
                 if (c.searchType == "select") {
                     let arr = []
                     let key = c.key
@@ -224,10 +302,6 @@ export default {
                         arr.push(item[key])
                     })
                     c.options = [...new Set(arr)]
-                }
-                if (c.selection) {
-                    c.width="10%"
-                    c.noSearch = true
                 }
             })
             
@@ -254,13 +328,49 @@ export default {
                         // }
                     } else {
                         keyword = ""
-                        // console.log(2,keyword, key,item)
                         return true
                     }
-                    
                 })
             })
+            arr = arr.filter(item => {
+                // console.log(item[this.timeKey])
+                let D = new Date(item[this.timeKey])
+                let y = String(D.getFullYear())
+                let m = String((D.getMonth() + 1) < 10 ? "0" + (D.getMonth() + 1) : (D.getMonth() + 1))
+                let d = String(D.getDate() < 10 ? "0" + D.getDate() : D.getDate())
+                return ( 
+                    (this.year? y==(this.year) : true) && 
+                    (this.month ? m==(this.month) : true) && 
+                    (this.date ? d==(this.date) : true)
+                )
+                
+            })
+
             this.tableData = JSON.parse(JSON.stringify(arr))
+            this.column.forEach(c => {
+                if(c.time) {
+                    let key= c.key
+                    this.tableData.forEach(item => {
+                        let D = new Date(item[key])
+                        let y = D.getFullYear()
+                        let m = D.getMonth() + 1
+                        let d = D.getDate()
+                        let h = D.getHours()
+                        let min = D.getMinutes()
+                        if (m < 10) { m = "0" + m }
+                        if (d < 10) { d = "0" + d }
+                        if (h < 10) { h = "0" + h }
+                        if (min < 10) { min = "0" + min }
+                        let timeStr = y + "-" + m + "-" + d
+                        if (h != 0 && min != 0) {
+                            timeStr += " " + h + ":"
+                            timeStr += min
+                        }
+                        item[key] = timeStr
+                        item.cTimestamp = D.getTime()
+                    })
+                }
+            })
         },
         selectColumns () {
             this.filterData()

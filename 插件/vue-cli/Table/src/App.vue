@@ -27,13 +27,13 @@ export default {
                     title: "id",
                     key: "id",
                     // searchType: "select"
-                    // width: "20%",
+                    width: "80%",
                 },
                 {
-                    title: "姓名",
+                    title: "名称",
                     key: "name",
-                    searchType: "select"
-                    // width: "8%",
+                    searchType: "select",
+                    width: "200%",
                 },
                 {
                     title: "所属分类",
@@ -56,7 +56,8 @@ export default {
                 {
                     title: "创建时间",
                     key: "createdAt",
-                    searchType: "select"
+                    // searchType: "select",
+                    time: true
                     // width: "20%",
                 },
                 {
