@@ -7,7 +7,7 @@
     .THEAD {
         display: flex;
         padding: 0.5vw 0;
-        background: #102452;
+        background: linear-gradient(#08183f, #171799);
         color: #FFF;
         position: relative;
     }
@@ -119,10 +119,40 @@
             padding: 0.1vw 0;
         }
     }
+    .flexEnd {
+        display: flex;
+        justify-content: flex-end;
+    }
+    .padding1 {
+        user-select: none;
+        padding: 0.5vw 0;
+        >button {
+            background:linear-gradient(#08183f, #171799);
+            color: #FFF;
+            display: inline-block;
+            margin-left: 0.4vw;
+            padding: 0.3vw 1vw;
+            outline: none;
+            font-size: 0.8vw;
+            border: none;
+            cursor: pointer;
+            &:hover {
+                box-shadow: 0 0 3px #333;
+            }
+        }
+    }
+    .op:active {
+        opacity: 0.6 !important;
+    }
 </style>
-
 <template>
     <div class="TableWrap">
+        <div class="flexEnd">
+            <div class="padding1">
+                <button class="op" @click="initFilter">清空筛选条件</button>
+                <button class="op" @click="exportData">导出csv</button>
+            </div>
+        </div>
         <div class="THEAD" >
             <div :class="['checkBox', 'cLeft']" @click="clickAllCheck">
                 <div v-if="checkAll"><img src="./static/img/check.png"></div>
@@ -186,6 +216,7 @@
             //  time: true  ( 是时间 )
 
 // searchable: flase (不显示搜索框,默认显示)
+
 export default {
     name: 'TABLE',
     data () {
@@ -375,10 +406,76 @@ export default {
         selectColumns () {
             this.filterData()
         },
+        initFilter () {
+            this.column.forEach(item => {
+                item.keyword = ""
+                this.year = ""
+                this.month = ""
+                this.date = ""
+                this.filterData()
+            })
+        },
+        exportData () {
+            let rows = [
+                 {
+                    title: '序号',
+                    key: 'Ordinal',
+                    align: 'center'
+                },
+                {
+                    title: '产品编号',
+                    key: 'ProductNo',
+                    align: 'left'
+                }
+            ]
+            let fields = ['title','key','align']
+            const json2csv = require("json2csv")
+            try {
+                const result = json2csv.parse(rows, {
+                    fields: fields,
+                    excelStrings: true
+                });
+                if (this.MyBrowserIsIE()) {
+                    // IE10以及Edge浏览器
+                    var BOM = "\uFEFF";
+                            // 文件转Blob格式
+                    var csvData = new Blob([BOM + result], { type: "text/csv" });
+                    navigator.msSaveBlob(csvData, `table${Date.now()}.csv`);
+                } else {
+                    let csvContent = "data:text/csv;charset=utf-8,\uFEFF" + result;
+                    // 非ie 浏览器
+                    this.createDownLoadClick(csvContent, `table${Date.now()}.csv`);
+                }
+            } catch (err) {
+                alert(err);
+            }
+
+        },
+        createDownLoadClick(content, fileName) {
+            const link = document.createElement("a");
+            link.href = encodeURI(content);
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        },
+        MyBrowserIsIE() {
+            let isIE = false;
+            if (
+                navigator.userAgent.indexOf("compatible") > -1 &&
+                navigator.userAgent.indexOf("MSIE") > -1
+            ) {
+                // ie浏览器
+                isIE = true;
+            }
+            if (navigator.userAgent.indexOf("Trident") > -1) {
+                // edge 浏览器
+                isIE = true;
+            }
+            return isIE;
+        },
     }
 }
 </script>
 
 
-
-</style>

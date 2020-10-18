@@ -30,6 +30,13 @@ export default {
                     width: "80%",
                 },
                 {
+                    title: "创建时间",
+                    key: "createdAt",
+                    // searchType: "select",
+                    time: true
+                    // width: "20%",
+                },
+                {
                     title: "名称",
                     key: "name",
                     searchType: "select",
@@ -53,13 +60,7 @@ export default {
                     searchType: "select"
                     // width: "20%",
                 },
-                {
-                    title: "创建时间",
-                    key: "createdAt",
-                    // searchType: "select",
-                    time: true
-                    // width: "20%",
-                },
+                
                 {
                     title: "操作",
                     noSearch: true,
@@ -112,7 +113,9 @@ export default {
     methods:{
         getData () {
             this.$axios({
-                url: "http://167.179.100.249:9091/v1/product"
+                // url: "http://167.179.100.249:9091/v1/product"
+                url: "/api/v1/product",
+                method:"GET"
             }).then(res => {
                 console.log(res)
                 if (res.data.products) {
