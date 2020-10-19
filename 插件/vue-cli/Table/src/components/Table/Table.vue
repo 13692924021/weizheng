@@ -15,7 +15,7 @@
         display: flex;
         transition: 0.2s;
         cursor: pointer;
-        border-bottom: solid #CCC 1px;
+        border-top: solid #CCC 1px;
         &:hover {
             background: #e2dfdf !important;
         }
@@ -30,8 +30,8 @@
             border: none !important;
         }
     }
-    .ROW:last-child{
-        border-bottom: none !important;
+    .ROW:first-child{
+        border-top: none !important;
     }
     .searchWrap {
         display: flex;
@@ -114,6 +114,8 @@
         transform: translateY(-50%);
     }
     .selectTimeWrap {
+        display: flex;
+        align-items: center;
         >select {
             width: 33%;
             padding: 0.1vw 0;
@@ -144,6 +146,27 @@
     .op:active {
         opacity: 0.6 !important;
     }
+    .loadData {
+        width: 3vw;
+        height: 3vw;
+        border-radius: 50%;
+        margin: 3vw auto;
+        border: solid #102452 5px;
+        border-left: solid transparent 5px !important;
+        animation: rotate 1s linear infinite;
+    }
+    @keyframes rotate {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+    .noData {
+        margin: 2vw 0;
+        color: #666666;
+    }
 </style>
 <template>
     <div class="TableWrap">
@@ -154,7 +177,7 @@
             </div>
         </div>
         <div class="THEAD" >
-            <div :class="['checkBox', 'cLeft']" @click="clickAllCheck">
+            <div :class="['checkBox', 'cLeft']" @click="clickAllCheck" v-if="selection">
                 <div v-if="checkAll"><img src="./static/img/check.png"></div>
             </div>
             <div v-for="(item,i) in column" :style="{ width:item.width ? item.width :  '100%' }" :key="i" v-html="item.title"></div>
@@ -192,6 +215,8 @@
         </div>
 
         <div class="TBODY">
+            <div class="loadData" v-if="loading"> </div>
+            <div class="noData" v-if="!tableData.length && !loading">暂无数据</div>
             <div class="ROW" v-for="(item,i) in tableData" :key="i" >
                 <div v-for="(c,i) in column" :key="i" :style="{ width:c.width ? c.width :  '100%' }">
                     <div v-if="c.selection" class="checkBox" @click="clickCheckBox(item)">
@@ -208,15 +233,21 @@
 </template>
 
 <script>
+// 使用方法:
+
+// 需先npm install xlsx -S  安装导出文件的插件
+
 // columns:
             //  title: "表头名字"  (可传 v-html)
             //  key: "key"
             //  width:  columns宽度 (任何单位)
             //  noSearch: true    (不显示搜索框)
-            //  time: true  ( 是时间 )
+            //  time: true  ( 是创建时间 )
 
 // searchable: flase (不显示搜索框,默认显示)
+// loading: true   (显示加载中的动画)
 
+import excel from './static/js/excel.js'
 export default {
     name: 'TABLE',
     data () {
@@ -230,18 +261,22 @@ export default {
             year: "",
             month: "",
             date: "",
-            timeKey: ""  // 记录数据的创建时间的key (例如：createdAt)
+            timeKey: "",  // 记录数据的创建时间的key (例如：createdAt)
+            selection: false,
         }
     },
     props: {
-        searchable: {
+        loading: {      // 加载中
+            default: false
+        },
+        searchable: {   // 是否显示搜索
             default: true,
         },
-        columns: {
+        columns: {    // 表头
             type: Array,
             default: () => []
         },
-        list: {
+        list: {    //tbody展示的数据
             type: Array,
             default: () => []
         }
@@ -302,6 +337,7 @@ export default {
                 if (c.selection) {
                     c.width="15%"
                     c.noSearch = true
+                    this.selection = true
                 }
                 if(c.time) {
                     let key= c.key
@@ -416,64 +452,42 @@ export default {
             })
         },
         exportData () {
-            let rows = [
-                 {
-                    title: '序号',
-                    key: 'Ordinal',
-                    align: 'center'
-                },
-                {
-                    title: '产品编号',
-                    key: 'ProductNo',
-                    align: 'left'
+            let rows = this.tableData.filter(item => item.check)
+            if (rows.length) {
+                let fields = []
+                for(let key in rows[0]) {
+                    this.column.forEach(c => {
+                        if (c.key == key) {
+                            // fields.push(c.key)
+                            fields.push(c.title)
+                        }
+                    })
                 }
-            ]
-            let fields = ['title','key','align']
-            const json2csv = require("json2csv")
-            try {
-                const result = json2csv.parse(rows, {
-                    fields: fields,
-                    excelStrings: true
-                });
-                if (this.MyBrowserIsIE()) {
-                    // IE10以及Edge浏览器
-                    var BOM = "\uFEFF";
-                            // 文件转Blob格式
-                    var csvData = new Blob([BOM + result], { type: "text/csv" });
-                    navigator.msSaveBlob(csvData, `table${Date.now()}.csv`);
-                } else {
-                    let csvContent = "data:text/csv;charset=utf-8,\uFEFF" + result;
-                    // 非ie 浏览器
-                    this.createDownLoadClick(csvContent, `table${Date.now()}.csv`);
+                let arr = []
+                rows.forEach(item => {
+                    let dataObj = {}
+                    this.column.forEach(c => {
+                        if (c.key) {
+                            dataObj[c.title] = item[c.key]
+                        }
+                    })
+                    arr.push(dataObj)
+                })
+                // console.log(fields,arr)
+                let tableData = arr
+                const params = {
+                    title: fields,
+                    key: fields,
+                    data: tableData,
+                    autoWidth: true,
+                    filename: 'table-' + Date.now()
                 }
-            } catch (err) {
-                alert(err);
+                excel.export_array_to_excel(params)
+                this.exportLoading = false
+            } else {
+                alert("请勾选需要导出的数据")
             }
-
-        },
-        createDownLoadClick(content, fileName) {
-            const link = document.createElement("a");
-            link.href = encodeURI(content);
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        },
-        MyBrowserIsIE() {
-            let isIE = false;
-            if (
-                navigator.userAgent.indexOf("compatible") > -1 &&
-                navigator.userAgent.indexOf("MSIE") > -1
-            ) {
-                // ie浏览器
-                isIE = true;
-            }
-            if (navigator.userAgent.indexOf("Trident") > -1) {
-                // edge 浏览器
-                isIE = true;
-            }
-            return isIE;
-        },
+        }
     }
 }
 </script>
