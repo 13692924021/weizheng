@@ -113,7 +113,7 @@ export default {
     methods:{
         getData () {
             this.$axios({
-                // url: "http://167.179.100.249:9091/v1/product"
+                // url: "http://167.179.100.249:9091/v1/product"   123
                 url: "/api/v1/product",
                 method:"GET"
             }).then(res => {
