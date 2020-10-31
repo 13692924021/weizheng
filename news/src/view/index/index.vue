@@ -176,7 +176,7 @@
                                 <FormItem class="item" label="服务类型"  :label-width='width' prop='services'>
                                      <Select v-model="nothing">
                                          <!-- <Option v-for="(item) in classify.services" :key="item.serve" :value="item.serve"></Option> -->
-                                        <Option v-for="(item,i) in classify.services" :key='i' value="">{{item.serve}}</Option>
+                                        <Option v-for="(item,i) in classify.services" :key='i' :value="item.code">{{item.name}}</Option>
                                      </Select>
                                 </FormItem>
                                 <FormItem class="item" label='收件人'  :label-width='width' prop='recipients'>
@@ -203,7 +203,7 @@
                                     </FormItem>
                                 </Form>
                                 <FormItem class="item" label='国家' :label-width='width'>
-                                    <Select style="width:100px">
+                                    <Select style="width:100px" v-model="country">
                                         <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                                     </Select>
                                 </FormItem>
@@ -219,11 +219,11 @@
                     <div>
                         <div>
                             <Form>
-                                <FormItem class="item" label='发件人' v-model="classify.name" :label-width='width'>
-                                    <Input  type='text' placeholder=""/>
+                                <FormItem class="item" label='发件人' :label-width='width'>
+                                    <Input  type='text' placeholder="" v-model="classify.send_name" />
                                 </FormItem>
-                                <FormItem class="item" label='店铺' v-model='classify.store_id' :label-width='width'>
-                                    <Input  type='text' placeholder="店铺"/>
+                                <FormItem class="item" label='店铺' :label-width='width'>
+                                    <Input  type='text' placeholder="店铺"  v-model='classify.store_id' />
                                 </FormItem>
                                 <FormItem class="item" label='参考号一' :label-width='width'>
                                     <Input  type='text' placeholder="参考号一"/>
@@ -235,15 +235,15 @@
                                     <Input  type='text' placeholder="申报币种"/>
                                 </FormItem>
                                 <FormItem class="item" label='备注' :label-width='width'>
-                                    <Input  type='text'  placeholder="备注"/>
+                                    <Input  type='text' v-model="remark" placeholder="备注"/>
                                 </FormItem>
                                 <FormItem class="item" label='物品属性' :label-width='width'>
                                     <CheckboxGroup v-model="categories">
-                                        <Checkbox label="带磁"></Checkbox>
-                                        <Checkbox label="危险品"></Checkbox>
-                                        <Checkbox label="带电"></Checkbox>
-                                        <Checkbox label="液体"></Checkbox>
-                                        <Checkbox label='粉末'></Checkbox>
+                                        <Checkbox label="magnetic ">带磁</Checkbox>
+                                        <Checkbox label="danger ">危险品</Checkbox>
+                                        <Checkbox label="elec">带电</Checkbox>
+                                        <Checkbox label="liquid">液体</Checkbox>
+                                        <Checkbox label='powder'>粉末</Checkbox>
                                     </CheckboxGroup>
                                 </FormItem>
                             </Form>
@@ -267,7 +267,7 @@
                                 <div style="display:flex" class="tableTop">
                                     <div v-for="(item,i) in type" :key="i">{{item}}</div>
                                 </div>
-                                <div  v-for="(item,i) in object.dexlarations" :key="i" style="display:flex;">
+                                <div  v-for="(item,i) in object.declarations" :key="i" style="display:flex;">
                                     <div class="serial">{{i}}</div>
                                     <div class="inputBox" style="border:solid gray 1px;" >
                                         <input type="text" v-model="item.sku"/>
@@ -340,7 +340,7 @@ export default {
                 "client_length": "3", 
                 "client_width": "4", 
                 "client_height": "5", 
-                'dexlarations': [] 
+                'declarations': [] 
             },
             cityList: [
                 {
@@ -349,25 +349,31 @@ export default {
                 }
             ],
             classify:{
-                client_reference:'',
+                client_reference:'test001',   //客户单号
                 store_id:'',
-                recipients:'',
+                recipients:'阿凡达',
                 company:'wahaha llc',
                 address_1:'2580 CORPORATE PLACE',
                 address_2:'SUITE#F107',
                 city:'MONTEREY PARK',
                 state:'CA',
-                email:'',
+                email:'971307875@163.com',
                 postcode:'91754',
-                mobile:'',
-                name:'hugh',
+                mobile:'13046130130',
+
+
+                send_name:'hugh',
+                send_mobile: "13692929292",
+                send_address: "发件地址",
                 services: [
-                    {serve:'测试小包',label:'测试小包'},
-                    {serve:'美国带电经济专递小包',label:'美国带电经济专递小包'}
-                    
+                    {name:'测试小包',code:'B2C'},
                 ],
+
+
             },
-            nothing:'',
+            nothing:'B2C',   //服务类型
+            country: "Canada",    //国家
+            remark: "",//备注
             rule:{
                 services:[
                     {required:true,trigger:'blur',message:'1'}
@@ -409,126 +415,175 @@ export default {
     },
     created () {
         for (let i=0;i<15;i++) {
-            this.object.dexlarations.push(
+            this.object.declarations.push(
                 {
-                "sku": "", 
-                "name_zh": "",
-                "name_en": "",
-                "unit_value": 11, 
+                "sku": "1232131", 
+                "name_zh": "123213",
+                "name_en": "123213",
+                "unit_value": 11,  //申报单价
                 "qty": 1, 
-                "material": "",
-                "usage": "",
-                "brand": "",
-                "model": "",
+                "material": "1231",  //材质
+                "usage": "123",   //用途
+                "brand": "brand",
+                "model": "modal",      // 型号
                 "sale_price": 0,
-                "sale_url": "",
-                "asin": "", 
-                "fnsku": "", 
+                "sale_url": "url",
+                "asin": "asin", 
+                "fnsku": "fnsku", 
                 "weight": 0,
-                "size": "",
-                "photo_url": "",
-                "hscode": '', 
+                "size": "100",
+                "photo_url": "12321",
+                "hscode": '12321',      // 海关编码
                 "duty_rate": 0,
-                "photos": "",
+                "photos": "123",
                 "is_battery": 0
                 }
             )
         }
+        this.getOrder() 
+        // this.showDrawer()
     },
     methods: {
+        getOrder () {
+            this.$axios({
+                url: "api/v4/shipment/info",
+                method:"POST",
+                data:{
+                    validation:{
+                        access_token: window.token
+                    },
+                    shipment:{
+                        // shipment_id: "10000038"
+                        shipment_id: "/"
+                    }
+                }
+            }).then(res => {
+                console.log(res)
+            })
+        },
         choose (e) {
             console.log(666,e)
         },
         showDrawer () {
             this.value = true
+            this.$axios({
+                url: "api/v4/shipment/get_services",
+                method:"POST",
+                data:{
+                    validation:{
+                        access_token:window.token
+                    },
+                    services: {
+                        type:"all"
+                    }
+                }
+            }).then(res => {
+                console.log(res)
+                if (res.data.status == 1) {
+                    this.classify.services = res.data.data.services
+                }
+            })
         },
         cancel () {
             this.value = false
         },
         login () {
+            let parcels = [
+                {
+                    'number':'1', //箱号。按 1，2，3...顺序递 增。有 FBA 箱号可以填写 FBA 箱号。必填 
+                    "client_weight": "2", 
+                    "client_length": "3", 
+                    "client_width": "4", 
+                    "client_height": "5", 
+                    'declarations': this.object.declarations
+                }
+            ]
             this.$axios({
-                url:'http://mostex.nextsls.com/api/v4/shipment/create',
+                url:'api/v4/shipment/create',
                 method:'POST',
 
                 data: {
                     'validation': {
-                        "access_token":""
+                        "access_token":window.token
                     },
                     "shipment": {
-                        "service":"FBA-EU"
-                    },
-                    "store_id":this.store_id,
-                    "client_reference":this.client_reference,
-                    "parcel_ciunt":2,
-                    "export_scc":0,
-                    "import_scc":0,
-                    'attrs':[],
-                    "vat_number":'',
-                    "to_address": {
-                        'name':this.name,
-                        'company':this.company,
-                        'tel':'18181811811',
-                        'mobile':'',
-                        'address_1':this.address_1,
-                        'address_2':this.address_2,
-                        'address_3':'',
-                        'city':this.city,
-                        'state':this.state,
-                        'state_code':'CA',
-                        'country':'US',
-                        'postcode':this.postcode,
-                        'email':''
-                    },
-                    'from_address': {
-                        'name':'hugh',
-                        'company':'wahaha llc',
-                        'tel':'18181811',
-                        'mobile':this.mobile,
-                        'address_1':'2580 CORPORATE PLACE',
-                        "address_2": "SUITE#F107",
-                        "address_3": "", 
-                        "city": "MONTEREY PARK", 
-                        "state": "CA", 
-                        "state_code": "CA", 
-                        "country": "US", 
-                        "postcode": "91754", 
-                        "email": "" 
-                    },
-                    'parcels': [
-                        {
-                            'number':'1', //箱号。按 1，2，3...顺序递 增。有 FBA 箱号可以填写 FBA 箱号。必填 
-                            "client_weight": "2", 
-                            "client_length": "3", 
-                            "client_width": "4", 
-                            "client_height": "5", 
-                            'dexlarations': [{
-                                "sku": "testsku", 
-                                "name_zh": "zhongwenming",
-                                "name_en": "yingwenming",
-                                "unit_value": 11, 
-                                "qty": 1, 
-                                "material": "glass",
-                                "usage": "play",
-                                "brand": "",
-                                "model": "",
-                                "sale_price": 0,
-                                "sale_url": "",
-                                "asin": "", 
-                                "fnsku": "fnsku", 
-                                "weight": 0,
-                                "size": "",
-                                "photo_url": "",
-                                "hscode": 1234567890, 
-                                "duty_rate": 0,
-                                "photos": "",
-                                "is_battery": 0 
-                            }]
+                        "service":this.nothing,
+                        "store_id":this.classify.store_id,
+                        "client_reference":this.classify.client_reference,
+                        "parcel_ciunt":2,
+                        // "export_scc":1,
+                        // "import_scc":0,
+                        'attrs':[],
+                        "vat_number":'',
+                        "to_address": {
+                            'name':this.classify.client_reference,
+                            'company':this.classify.company,
+                            'tel':"",
+                            'mobile':this.classify.mobile,
+                            'address_1':this.classify.address_1,
+                            'address_2':this.classify.address_2,
+                            'address_3':'',
+                            'city':this.classify.city,
+                            'state':this.classify.state,
+                            'state_code':'CA',
+                            'country':'US',
+                            'postcode':this.classify.postcode,
+                            'email':''
                         },
-                    ],
-                    'remark':''
+                        'from_address': {
+                            'name':this.classify.sendname,
+                            'company':'wahaha llc',
+                            'tel':this.classify.send_mobile,
+                            'mobile':this.classify.send_mobile,
+                            'address_1':this.classify.send_address,
+                            "address_2": "",
+                            "address_3": "", 
+                            "city": "发件城市", 
+                            "state": "CA", 
+                            "state_code": "CA", 
+                            "country": "US", 
+                            "postcode": "91754", 
+                            "email": "" 
+                        },
+                        parcels:parcels,
+                        // 'parcels': [
+                            // {
+                            //     'number':'1', //箱号。按 1，2，3...顺序递 增。有 FBA 箱号可以填写 FBA 箱号。必填 
+                            //     "client_weight": "2", 
+                            //     "client_length": "3", 
+                            //     "client_width": "4", 
+                            //     "client_height": "5", 
+                            //     'declarations': [{
+                            //         "sku": "testsku", 
+                            //         "name_zh": "zhongwenming",
+                            //         "name_en": "yingwenming",
+                            //         "unit_value": 11, 
+                            //         "qty": 1, 
+                            //         "material": "glass",
+                            //         "usage": "play",
+                            //         "brand": "",
+                            //         "model": "",
+                            //         "sale_price": 0,
+                            //         "sale_url": "",
+                            //         "asin": "", 
+                            //         "fnsku": "fnsku", 
+                            //         "weight": 0,
+                            //         "size": "",
+                            //         "photo_url": "",
+                            //         "hscode": 1234567890, 
+                            //         "duty_rate": 0,
+                            //         "photos": "",
+                            //         "is_battery": 0 
+                            //     }]
+                            // },
+                        // ],
+                        'remark':this.remark
+                    },
+                    
                 }
             }).then(res => {
                 console.log(res)
+                this.$Message.warning(res.data.info)
             })
         }
     }

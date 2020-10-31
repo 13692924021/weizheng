@@ -14,7 +14,12 @@ import '@/index.less'
 
 
 import axios from 'axios'
+
 // axios.defaults.baseURL = 'http://mostex.nextsls.com/'
+axios.defaults.baseURL = '/api/'
+
+window.token = "5f9cbbee3aff973f275a2ff15f9cbbeead8319007"
+
 Vue.prototype.$axios = axios
 
 new Vue({
