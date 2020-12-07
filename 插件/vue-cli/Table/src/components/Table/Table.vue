@@ -433,8 +433,12 @@ export default {
                             timeStr += " " + h + ":"
                             timeStr += min
                         }
-                        item[key] = timeStr
-                        item.cTimestamp = D.getTime()
+                        if (item[key]) {
+                            item[key] = timeStr
+                            item.cTimestamp = D.getTime()
+                        } else {
+                            item[key] = "No Date"
+                        }
                     })
                 }
             })
