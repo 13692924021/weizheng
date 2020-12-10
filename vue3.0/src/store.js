@@ -1,7 +1,9 @@
-import Vuex from "vuex"
+import {reactive} from "vue"
 
-export default Vuex.createStore({
-    state: {
-        total: "100"
+export const state = reactive({
+    total: 100,
+
+    setTotal () {
+        this.total++
     }
 })

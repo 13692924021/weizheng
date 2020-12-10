@@ -1,41 +1,20 @@
 <template>
     <div>
-        {{msg}}
-        <button @click="add">按鈕</button>
-        <br>
-        <div>{{user}}</div>
+        <router-link to="/">test</router-link>
+        <router-link to="/test2">test2</router-link>
+        <router-link to="/test3">test3</router-link>
         <div>
-            <Text></Text>
-            <Text></Text>
+            <router-view></router-view>
         </div>
+        
     </div>
 </template>
 
 <script>
-import { ref } from "vue"
 
 export default {
     name: 'App',
-    inject: ['user'],
-    setup () {
-        const msg = ref(2)
-        const add = () => {
-            msg.value++
-        }
-        // console.log(ref)
-        return {
-            msg,add
-        }
-    },
-    
-    created () { 
-        console.log("created",this.$store)
-    }
-    // data () {
-    //     return {
-    //         msg: "123"
-    //     }  
-    // }
+
 }
 </script>
 
