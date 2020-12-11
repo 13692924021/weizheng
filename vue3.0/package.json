@@ -9,8 +9,14 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "element-plus": "^1.0.1-alpha.19",
     "less": "^3.12.2",
     "less-loader": "^7.1.0",
+    "sass": "^1.30.0",
+    "sass-loader": "^10.1.0",
+    "scss": "^0.2.4",
+    "scss-loader": "0.0.1",
+    "view-design": "^4.4.0",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.0-beta.6",
@@ -26,9 +32,11 @@
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-typescript": "^5.0.2",
     "babel-eslint": "^10.1.0",
+    "element-theme-chalk": "^2.14.1",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0-0",
-    "typescript": "~3.9.3"
+    "typescript": "~3.9.3",
+    "vue-cli-plugin-element-plus": "0.0.8"
   },
   "eslintConfig": {
     "root": true,

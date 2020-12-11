@@ -10,6 +10,11 @@ app.use(router)
 import store from "@/store/store.ts"
 app.provide("store",store)
 
+//Element UI        https://element-plus.gitee.io/#/zh-CN/component/custom-theme
+import ElementPlus from 'element-plus'
+// import 'element-plus/lib/theme-chalk/index.css'
+app.use(ElementPlus, { size:"small" })
+import "./main.scss"
 
 app.mount('#app') 
 

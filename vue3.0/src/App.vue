@@ -1,4 +1,4 @@
-<style lang="less">
+<style lang="scss">
     body,html{
         margin: 0;
         padding: 0;
@@ -39,6 +39,9 @@
 
 <template>
     <div class="page">
+        <el-select>
+
+        </el-select>
         <nav class="nav sa">
             <router-link to="/">首页</router-link>
             <router-link to="/about">关于</router-link>
