@@ -9,54 +9,77 @@
     }
     .sa {
         display: flex;
+        justify-content: space-between;
+    }
+    .sb {
+        display: flex;
         justify-content: space-around;
     }
-    .nav {
-        padding:2em 0;
-        a {
-            padding: 1em 3em;
-            background: #978666;
-            color: #FFF;
-            border-radius: 1em;
-            cursor: pointer;
-            user-select: none;
-            transition: 0.4s;
-            &:hover {
-                box-shadow: #333 2px 2px 5px;
-            }
-        }
+    .ju {
+        display: flex;
+        justify-content: center;
     }
-    .main {
-        width: 96%;
-        padding: 2em;
-        min-height:500px;
-        box-sizing: border-box;
+    .al {
+        display: flex;
+        align-items: center;
+    }
+    ul {
+        margin: 0;
+        padding: 0;
+        
+    }
+    li {
+        list-style: none;
+    }
+    #app {
+        // background: #102269;
+        background:url("http://www.waterland.com.hk/wp-content/uploads/2016/05/waterlandBG.jpg") 100% 0% / 800px repeat scroll padding-box border-box rgb(18, 37, 103);
+        min-height:100vh;
+        color:#FFF;
+    }
+    .container {
+        max-width: 1180px;
+        border: solid #FFF 1px;
         margin: auto;
-        border: solid  #978666 2px;
-        border-radius: 1em;
+        
+        padding: 1em;
+        box-sizing: border-box;
+    }
+    .el-drawer {
+        background: #212121 !important;;
     }
 </style>
 
 <template>
-    <div class="page">
-        <el-select>
-
-        </el-select>
-        <nav class="nav sa">
-            <router-link to="/">首页</router-link>
-            <router-link to="/about">关于</router-link>
-            <router-link to="/contact">联系</router-link>
-        </nav>
-        <div class="main">
-            <router-view></router-view>
-        </div>
+    <div class="">
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
+
     export default {
         name: "app",
-
+        created () {
+            // window.http({
+            //     url: 'phone/login',
+            //     method:"POST",
+            //     data: {
+            //         action: "password",
+            //         password: "321",
+            //         telephone: "123",
+            //         type: 1,
+            //         wid: "",
+            //     },
+            //     headers: {
+            //         aaa:'123'
+            //     }
+            // }).then(res => {
+            //     console.log(res)
+            // }).catch(e => {
+            //     console.log(e)
+            // })
+        }
     }
 </script>
 
