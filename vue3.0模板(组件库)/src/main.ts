@@ -49,6 +49,10 @@ import ElementPlus from 'element-plus'
 import tw from 'element-plus/lib/locale/lang/zh-tw'
 app.use(ElementPlus, { size:"small",locale: tw})      //默认繁体
 
+// 自定义组件
+import myMenu from "@/components/menu/menu.vue"
+app.component("myMenu", myMenu)
+
 
 app.mount('#app') 
 
