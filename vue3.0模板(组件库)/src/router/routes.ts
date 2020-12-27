@@ -10,7 +10,18 @@ export default [
             hideInMenu: false,
             title: "首页"
         },
-        component: () => import("@/view/index/index.vue")
+        component: () => import("@/view/index/index.vue"),
+        children: [
+            {
+                path:"/table",
+                name: "table",
+                meta: {
+                    hideInMenu: false,
+                    title: "Table表格"
+                },
+                component: () => import("@/view/table/table.vue")
+            },
+        ]
     },
     {
         path:"/login",
@@ -21,4 +32,5 @@ export default [
         },
         component: () => import("@/view/login/login.vue")
     },
+    
 ]
