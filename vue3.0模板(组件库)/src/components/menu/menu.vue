@@ -43,18 +43,21 @@
 .rotate180 {
 	transform: rotate(180deg);
 }
+.act {
+	background: #10103d !important; 
+}
 </style>
 
 <template>
     <div class="myMenu">
 		<div v-for="(item,i) in dataList" :key="i">
-			<div class="menuItem" v-if="item.children.length==0"><a @click="active(item)">{{item.name}}</a></div>
+			<div :class="['menuItem', {act: act==item.name}]" v-if="item.children.length==0"><a @click="active(item)">{{item.name}}</a></div>
 			<div v-else class="menuItem">
 				<a @click="changeExpand(i)">{{item.name}}</a>
 				<i :class="['menuI', { rotate180:item.expand }]"></i>
 				<div :class="['menuBox']" :style="{ 'max-height': item.expand ? item.children.length*55+'px' : '0' }">
-					<div v-for="(child,i) in item.children" :key="i" class="menuItem">
-						<a @click="active(item)">{{child.name}}</a>
+					<div v-for="(child,i) in item.children" :key="i"  :class="['menuItem', {act: act==child.name}]">
+						<a @click="active(child)">{{child.name}}</a>
 					</div>	
 				</div>
 				
@@ -65,7 +68,6 @@
 
 <script>
 // {                          dataList的格式
-// 	path:"/index/table",
 // 	name: "折叠",
 // 	children: [
 // 		{
@@ -76,10 +78,11 @@
 // 	]
 // },
 export default {
-	props: ['list'],
+	props: ['list', "activeName"],
 	data () {
 		return {
-			dataList: []
+			dataList: [],
+			act: "",      //当前高亮的菜单
 		}
 	},
 	watch: {
@@ -89,21 +92,36 @@ export default {
 	},
 	created () {
 		this.init()
+		this.act = this.activeName
 	},
 	methods:{
 		//点击菜单
 		active (item) {
+			this.act = item.name
+			this.dataList.forEach(item => {
+				if (!item.children.find( c => c.name == this.act )) {
+					item.expand = false
+				}
+			})
 			this.$emit("active",item)
 		},
 		init () {
 			this.dataList = JSON.parse(JSON.stringify(this.list))
 			this.dataList.forEach(item => {
 				item.expand = false
+				let childActive = item.children.find(c => {
+					return c.name == this.activeName
+				})
+				if (childActive) { item.expand =true }
 			})
 		},
 		changeExpand (i) {
+			this.dataList.forEach((item, j) => {
+				if (j != i) {
+					item.expand = false
+				}
+			})
 			this.dataList[i].expand = !this.dataList[i].expand
-			console.log(this.dataList[i])
 		}
 	}
 }

@@ -15,7 +15,7 @@
 <template>
     <div class="Wrap">
         <div class="menuWrap">
-            <myMenu :list="list" @active="active"></myMenu>
+            <myMenu :list="list" @active="active" :activeName="activeName"></myMenu>
         </div>
 
         <div></div>
@@ -28,6 +28,7 @@ export default {
     inject: ["store","lang"],
     data () {
         return {
+            activeName: "子菜单4",
             list: [
                 {
                     path:"/index/table",
@@ -40,17 +41,34 @@ export default {
                     children: []
                 },
                 {
-                    path:"/index/table",
+                    path:"/",
                     name: "折叠",
                     children: [
                         {
-                            path:"/index/table",
+                            path:"/index/child1",
                             name: "子菜单1",
                             children: []
                         },
                         {
-                            path:"/index/table",
+                            path:"/index/child2",
                             name: "子菜单2",
+                            children: []
+                        },
+                        
+                    ]
+                },
+                {
+                    path:"/",
+                    name: "折叠2",
+                    children: [
+                        {
+                            path:"/index/child1",
+                            name: "子菜单3",
+                            children: []
+                        },
+                        {
+                            path:"/index/child2",
+                            name: "子菜单4",
                             children: []
                         },
                         

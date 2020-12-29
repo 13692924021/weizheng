@@ -1,8 +1,8 @@
-import { createApp, markRaw } from 'vue'
+import { createApp } from 'vue'
 
 //shallowRef , shallowReactive  只监听第一层数据，不递归监听
 //toRaw  获取reactive数据的原始数据， 修改不更新视图
-//markRaw 用markRaw返回的对象传给reactive不贵触发视图更新
+//markRaw 用markRaw返回的对象传给reactive不会触发视图更新
 //toRef(obj,'key')  关原始数据，修改的同时会修改原始数据， 但不触发视图更新
 //toRefs(obj) 
 // customRef((track,trigger) => {     //有点类似computed
@@ -54,6 +54,26 @@ import myMenu from "@/components/menu/menu.vue"
 app.component("myMenu", myMenu)
 
 
-app.mount('#app') 
+app.mount('#app')
+
+
+
+declare global {
+    interface Window {
+        __VUE_DEVTOOLS_GLOBAL_HOOK__: any
+    }
+}
+
+// window.__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue = app.constructor
+// app.config.devtools = true
+// 分环境处理
+if (process.env.NODE_ENV === 'development') {
+if ('__VUE_DEVTOOLS_GLOBAL_HOOK__' in window) {
+// 这里__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue赋值一个createApp实例
+    window.__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue = app.constructor
+    window.__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue.mixin = ()=>{}
+}
+app.config.devtools = true
+}
 
 
