@@ -33,3 +33,31 @@ a {
  /* hover，active */
  .hover:hover {opacity: 0.8 }
  .op:active { opacity: 0.6 !important }
+
+ /* 滚动条 */
+.bar::-webkit-scrollbar{
+  width:10px;
+  height:10px;
+}
+.bar::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.bar::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.bar::-webkit-scrollbar-thumb:hover{
+  background: #333;
+}
+.bar::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.bar {
+  overflow: auto;
+  scrollbar-color: #bfbfbf  rgb(239, 239, 239); 
+  scrollbar-width: none;
+  scrollbar-width: thin;   
+}
+.noBar { -ms-overflow-style:none !important;scrollbar-width: none !important; }  
+.noBar::-webkit-scrollbar { display: none !important; }
