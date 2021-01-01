@@ -51,6 +51,11 @@ app.use(ElementPlus, { size:"small",locale: tw})      //默认繁体
 
 // 自定义组件
 import myMenu from "@/components/menu/menu.vue"
+import myTable from "@/components/Table/Table.vue"
+import myNav from "@/components/myNav/myNav.vue" 
+
+app.component("myNav", myNav)
+app.component("myTable", myTable)
 app.component("myMenu", myMenu)
 
 
@@ -64,16 +69,15 @@ declare global {
     }
 }
 
-// window.__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue = app.constructor
-// app.config.devtools = true
+
 // 分环境处理
-if (process.env.NODE_ENV === 'development') {
-if ('__VUE_DEVTOOLS_GLOBAL_HOOK__' in window) {
-// 这里__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue赋值一个createApp实例
-    window.__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue = app.constructor
-    window.__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue.mixin = ()=>{}
-}
-app.config.devtools = true
-}
+// if (process.env.NODE_ENV === 'development') {
+//     if ('__VUE_DEVTOOLS_GLOBAL_HOOK__' in window) {
+//     // 这里__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue赋值一个createApp实例
+//         window.__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue = app.constructor
+//         window.__VUE_DEVTOOLS_GLOBAL_HOOK__.Vue.mixin = ()=>{}
+//     }
+//     app.config.devtools = true
+// }
 
 

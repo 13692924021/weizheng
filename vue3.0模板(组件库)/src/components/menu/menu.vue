@@ -88,6 +88,9 @@ export default {
 	watch: {
 		list () {
 			this.init()
+		},
+		activeName () {
+			this.act = this.activeName
 		}
 	},
 	created () {

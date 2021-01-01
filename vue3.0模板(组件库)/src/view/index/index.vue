@@ -5,20 +5,30 @@
     height: 100%;
     height: calc(100vh - 1px);
     background: #FCFCFC;
+    >div {
+        height: 100%;
+        overflow-y: auto;
+        box-sizing: border-box;
+    }
 }
 .menuWrap {
     height: 100%;
     box-shadow: 0 5px 5px #333;
 }
+.Main {
+    padding: 20px;
+}
 </style>
 
 <template>
     <div class="Wrap">
-        <div class="menuWrap">
+        <div class="menuWrap noBar">
             <myMenu :list="list" @active="active" :activeName="activeName"></myMenu>
         </div>
 
-        <div></div>
+        <div class="Main">
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 
@@ -28,7 +38,7 @@ export default {
     inject: ["store","lang"],
     data () {
         return {
-            activeName: "子菜单4",
+            activeName: "Table表格",
             list: [
                 {
                     path:"/index/table",
@@ -40,40 +50,24 @@ export default {
                     name: "滚动菜单",
                     children: []
                 },
-                {
-                    path:"/",
-                    name: "折叠",
-                    children: [
-                        {
-                            path:"/index/child1",
-                            name: "子菜单1",
-                            children: []
-                        },
-                        {
-                            path:"/index/child2",
-                            name: "子菜单2",
-                            children: []
-                        },
+                
+                // {
+                //     path:"/",
+                //     name: "折叠2",
+                //     children: [
+                //         {
+                //             path:"/index/child1",
+                //             name: "子菜单3",
+                //             children: []
+                //         },
+                //         {
+                //             path:"/index/child2",
+                //             name: "子菜单4",
+                //             children: []
+                //         },
                         
-                    ]
-                },
-                {
-                    path:"/",
-                    name: "折叠2",
-                    children: [
-                        {
-                            path:"/index/child1",
-                            name: "子菜单3",
-                            children: []
-                        },
-                        {
-                            path:"/index/child2",
-                            name: "子菜单4",
-                            children: []
-                        },
-                        
-                    ]
-                },
+                //     ]
+                // },
             ]
         }
     },
@@ -89,8 +83,8 @@ export default {
     },
     methods:{
         active (menu) {
-            // this.$router.push(menu.path)
-            console.log(menu)
+            this.$router.push(menu.path)
+            // console.log(menu)
         }
     }
     
