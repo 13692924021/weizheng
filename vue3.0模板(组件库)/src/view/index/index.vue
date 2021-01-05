@@ -71,6 +71,14 @@ export default {
             ]
         }
     },
+    watch: {
+        "$route": {
+            handler () {
+                this.activeName = this.$route.meta.name
+            },
+            immediate: true
+        },
+    },
     created () {
         // this.list= []
         // menuList.find(item => item.name=='index').children.forEach(item => {

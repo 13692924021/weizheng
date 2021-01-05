@@ -65,6 +65,7 @@
                     box-sizing: border-box;
                     margin: auto;
                     display: block;
+                    height: 25px;
                 }
             }
         }
@@ -81,6 +82,7 @@
         width: 80%;
         max-width:12vw;
         padding: 0.1vw 0.3vw;
+        height: 25px;
     }
     .flex {
         display:flex;
