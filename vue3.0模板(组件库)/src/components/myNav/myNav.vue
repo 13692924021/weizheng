@@ -111,6 +111,7 @@ export default {
         active: {
             handler (val) {
                 this.act = val
+                this.$refs['nav' + val].click()
             },
             immediate: true
         }

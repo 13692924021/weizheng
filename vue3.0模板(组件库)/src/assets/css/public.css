@@ -8,6 +8,7 @@ a {
   text-decoration: none;
 }
 .clearBoth::after { display: block; content: "";clear: both; }
+.relative { position: relative; }
 
 /* 常用flex布局 */
 .flex { display: flex; }
