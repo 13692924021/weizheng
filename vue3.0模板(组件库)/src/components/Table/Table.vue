@@ -397,7 +397,7 @@ export default {
                     if (keyword) {
                         key = c.key
                         // for(let key in item) {
-                            if (String(item[key]).includes(keyword)) {
+                            if (String(item[key]).toUpperCase().includes(keyword.toUpperCase())) {
                                 return true
                             }
                         // }
