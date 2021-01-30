@@ -65,7 +65,8 @@
                     box-sizing: border-box;
                     margin: auto;
                     display: block;
-                    height: 25px;
+                    height: 26px;
+                    padding-left: 6px;
                 }
             }
         }
@@ -80,9 +81,10 @@
     }
     .tableSelect {
         width: 80%;
+        height: 26px;
         max-width:12vw;
         padding: 0.1vw 0.3vw;
-        height: 25px;
+        // height: 25px;
     }
     .flex {
         display:flex;
@@ -96,6 +98,7 @@
         cursor: pointer;
         background: #FFF;
         border-radius: 3px;
+        transition: 0.7s;
         &:hover {
             box-shadow: 0 0 3px #102452;
         }
@@ -169,6 +172,45 @@
         margin: 2vw 0;
         color: #666666;
     }
+    .pageBox {
+        width: 25px;
+        height: 25px;
+        border: solid #161795 1px;
+        border-radius:5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: 0.3s;
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+        .leftIcon {
+            width: 30%;
+            height: 30%;
+            border: solid transparent 1px;
+            border-left: solid #161795 2px !important;
+            border-top: solid #161795 2px !important;
+            transform: rotate(-45deg) translate(20%, 20%);
+        }
+        .rightIcon {
+            width: 30%;
+            height: 30%;
+            border: solid transparent 1px;
+            border-right: solid #161795 2px !important;
+            border-top: solid #161795 2px !important;
+            transform: rotate(45deg) translate(-20%, 20%);
+        }
+        &:hover {
+            box-shadow: 0 0 3px #161795;
+        }
+    }
+    .Margin10 {
+        margin: 4px;
+    }
+    .pageAct {
+        background:#161795 !important;
+        color: #FFF  !important;
+    }
 </style>
 <template>
     <div class="TableWrap">
@@ -219,7 +261,7 @@
         <div class="TBODY">
             <div class="loadData" v-if="loading"> </div>
             <div class="noData" v-if="!tableData.length && !loading">暂无数据</div>
-            <div class="ROW" v-for="(item,i) in tableData" :key="i" >
+            <div class="ROW" v-for="(item,i) in ( tableData.slice((page-1)*offset, (page-1)*offset+offset) )" :key="i" >
                 <div v-for="(c,i) in column" :key="i" :style="{ width:c.width ? c.width :  '100%' }">
                     <div v-if="c.selection" class="checkBox" @click="clickCheckBox(item)">
                         <div v-if="item.check"><img src="./static/img/check.png"></div>
@@ -231,6 +273,20 @@
                 </div>
             </div>
         </div>
+        <br>
+        <div class="flex-end">
+            <div class="al">
+                <span style="padding-right: 20px;">共{{total}}条 </span>
+                <div class="pageBox" @click="changePage(page-1)"> <div class="leftIcon"></div> </div>
+                <div class="al" style="padding: 0 4px;">
+                    <div :class="['pageBox Margin10', { pageAct:page===item }]" 
+                        v-for="(item,i) in Math.ceil(total/offset)" 
+                        :key="i" @click="changePage(i+1)">{{item}}</div>
+                </div>
+                <div class="pageBox" @click="changePage(page+1)"> <div class="rightIcon"></div> </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -271,6 +327,9 @@ export default {
             date: "",
             timeKey: "",  // 记录数据的创建时间的key (例如：createdAt)
             selection: false,
+            total: 0,
+            page: 1,
+            offset:5
         }
     },
     props: {
@@ -302,6 +361,20 @@ export default {
         }
     },
     methods:{
+        //点击分页
+        changePage (item) {
+            let that = this
+            this.page = item
+            if (item < 1) {
+                this.page = 1
+            }
+            console.log(item, Math.ceil(that.total/that.offset))
+            if (item > Math.ceil(that.total/that.offset)) {
+                this.page = Math.ceil(that.total/that.offset)
+                console.log(123,this.page)
+            }
+            document.getElementsByClassName("Main")[0].scrollTop = 0
+        },
         // 数据初始化
         dataInit () {
             this.tableData = JSON.parse(JSON.stringify(this.list))
@@ -397,7 +470,7 @@ export default {
                     if (keyword) {
                         key = c.key
                         // for(let key in item) {
-                            if (String(item[key]).toUpperCase().includes(keyword.toUpperCase())) {
+                            if (String(item[key]).toUpperCase().includes(String(keyword).toUpperCase())) {
                                 return true
                             }
                         // }
@@ -422,6 +495,8 @@ export default {
             })
 
             this.tableData = JSON.parse(JSON.stringify(arr))
+            this.total = this.tableData.length
+            this.page = 1
             this.column.forEach(c => {
                 if(c.time) {
                     let key= c.key
@@ -450,6 +525,7 @@ export default {
                     })
                 }
             })
+
         },
         selectColumns () {
             this.filterData()

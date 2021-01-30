@@ -111,7 +111,10 @@ export default {
         active: {
             handler (val) {
                 this.act = val
-                this.$refs['nav' + val].click()
+                setTimeout(() => {
+                    this.$refs['nav' + val].click()
+                },50)
+                
             },
             immediate: true
         }
