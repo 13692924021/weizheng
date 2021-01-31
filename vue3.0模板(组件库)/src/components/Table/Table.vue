@@ -371,7 +371,6 @@ export default {
             console.log(item, Math.ceil(that.total/that.offset))
             if (item > Math.ceil(that.total/that.offset)) {
                 this.page = Math.ceil(that.total/that.offset)
-                console.log(123,this.page)
             }
             document.getElementsByClassName("Main")[0].scrollTop = 0
         },

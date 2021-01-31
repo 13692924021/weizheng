@@ -149,17 +149,22 @@ export default {
             this.fixLeft()
         },
         fixLeft () {
-            let width = this.$refs.navMain.clientWidth
-            let navWidth = this.$refs.nav0.clientWidth
-            let longWidth = this.list.length * navWidth
+            try {
+                let width = this.$refs.navMain.clientWidth
+                let navWidth = this.$refs.nav0.clientWidth
+                let longWidth = this.list.length * navWidth
 
-            if (this.left > 0) {
-                this.left = 0
+                if (this.left > 0) {
+                    this.left = 0
+                }
+                // console.log(Math.abs(this.left) , (longWidth-width),-(longWidth-width) )
+                if ( Math.abs(this.left) >= (longWidth-width) ) {
+                    this.left = -(longWidth-width)
+                }
+            } catch {
+                
             }
-            // console.log(Math.abs(this.left) , (longWidth-width),-(longWidth-width) )
-            if ( Math.abs(this.left) >= (longWidth-width) ) {
-                this.left = -(longWidth-width)
-            }
+            
 
         }
     }
