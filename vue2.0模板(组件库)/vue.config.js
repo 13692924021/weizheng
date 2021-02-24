@@ -1,5 +1,7 @@
 module.exports = {
+    lintOnSave: false,
     devServer: {
+        // https: true,
 		proxy: {
 			"api": {
 				target: "http://167.179.100.249:9091",

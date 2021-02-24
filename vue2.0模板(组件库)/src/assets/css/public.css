@@ -1,0 +1,64 @@
+body,html,ul,dl {
+  padding: 0;
+  margin: 0;
+  font-size:14px;
+  color:#333;
+}
+a {
+  text-decoration: none;
+}
+.clearBoth::after { display: block; content: "";clear: both; }
+.relative { position: relative; }
+
+/* 常用flex布局 */
+.flex { display: flex; }
+.ju { display:flex; justify-content: center; }
+.al { display:flex; align-items: center; }
+.sb { display:flex; justify-content: space-between; }
+.sa{ display:flex; justify-content: space-around; }
+.flex-end{ display:flex; justify-content: flex-end; }
+.columns { display: flex; flex-direction: column; }
+
+/* 字体 */
+.bold { font-weight: bold }
+.whiteColor { color: white; }
+.size12 { font-size: 12px; }.size13 { font-size: 13px; }.size14 { font-size: 14px; }
+.size15 { font-size: 15px; }.size16 { font-size: 16px; }.size17 { font-size: 17px; }
+.size18 { font-size: 18px; }.size19 { font-size: 19px; }.size20 { font-size: 20px; }
+.size21 { font-size: 21px; }.size22 { font-size: 22px; }.size23 { font-size: 23px; }
+.size24 { font-size: 24px; }.size25 { font-size: 25px; }.size26 { font-size: 26px; }
+.size27 { font-size: 27px; }.size28 { font-size: 28px; }.size29 { font-size: 29px; }
+.cursor { cursor: pointer; }
+.user-select { user-select: none }
+
+ /* hover，active */
+ .hover:hover {opacity: 0.8 }
+ .op:active { opacity: 0.6 !important }
+
+ /* 滚动条 */
+.bar::-webkit-scrollbar{
+  width:10px;
+  height:10px;
+}
+.bar::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.bar::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.bar::-webkit-scrollbar-thumb:hover{
+  background: #333;
+}
+.bar::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.bar {
+  overflow: auto;
+  scrollbar-color: #bfbfbf  rgb(239, 239, 239); 
+  scrollbar-width: none;
+  scrollbar-width: thin;   
+}
+.noBar { -ms-overflow-style:none !important;scrollbar-width: none !important; }  
+.noBar::-webkit-scrollbar { display: none !important; }
