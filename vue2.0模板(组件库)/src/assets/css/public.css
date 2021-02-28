@@ -7,6 +7,9 @@ body,html,ul,dl {
 a {
   text-decoration: none;
 }
+div {
+  box-sizing: border-box;
+}
 .clearBoth::after { display: block; content: "";clear: both; }
 .relative { position: relative; }
 

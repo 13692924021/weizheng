@@ -19,6 +19,12 @@ Vue.component("myNav", myNav)
 Vue.component("myTable", myTable)
 Vue.component("myMenu", myMenu)
 
+// iView
+import ViewUI from 'view-design';
+import './main.less';
+
+Vue.use(ViewUI);
+
 new Vue({
     router,
     render: h => h(App),

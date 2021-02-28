@@ -94,7 +94,7 @@
         width:20px;
         height: 20px;
         border: solid #666666 1px;
-        margin: auto;
+        // margin: auto;
         cursor: pointer;
         background: #FFF;
         border-radius: 3px;
@@ -466,13 +466,11 @@ export default {
                     // console.log(c)
                     let keyword = c.keyword
                     let key = ""
-                    if (keyword) {
+                    if (String(keyword)) {
                         key = c.key
-                        // for(let key in item) {
-                            if (String(item[key]).toUpperCase().includes(String(keyword).toUpperCase())) {
-                                return true
-                            }
-                        // }
+                        if (String(item[key]).toUpperCase().includes(String(keyword).toUpperCase())) {
+                            return true
+                        }
                     } else {
                         keyword = ""
                         return true

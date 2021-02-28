@@ -1,14 +1,23 @@
 <style lang="less" scoped>
+.Index {
+    height: 100vh;
+}
 .Wrap {
-    display:grid;
-    grid-template-columns: 250px 1fr;
-    height: 100%;
-    height: calc(100vh - 1px);
+    display:flex;
+    // height: 100%;
+    // height: calc(100vh - 1px);
     background: #FCFCFC;
+    flex: 10;
     >div {
         height: 100%;
         overflow-y: auto;
         box-sizing: border-box;
+    }
+    >div:first-child {
+        width: 250px;
+    }
+    >div:last-child {
+        flex: 10;
     }
 }
 .menuWrap {
@@ -21,6 +30,10 @@
 </style>
 
 <template>
+<div class="Index columns">
+    <div >
+        <header class="ju">header</header>
+    </div>
     <div class="Wrap">
         <div class="menuWrap noBar">
             <myMenu :list="list" @active="active" :activeName="activeName"></myMenu>
@@ -30,6 +43,8 @@
             <router-view></router-view>
         </div>
     </div>
+</div>
+   
 </template>
 
 <script>

@@ -15,6 +15,7 @@
 		cursor: pointer;
 		box-sizing: border-box;
 		transition: 0.3s;
+		color: #FFF;
 	}
 	a:hover {
 		color: #0bc6f5 !important;
