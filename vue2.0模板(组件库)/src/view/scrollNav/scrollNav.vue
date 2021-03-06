@@ -1,6 +1,6 @@
 <template>
     <div>
-        <myNav :list="nav" :num='5' > </myNav>
+        <myNav :list="nav" :num='6' :active="0"> </myNav>
     </div>
 </template>
 
@@ -12,7 +12,7 @@ export default {
         }
     },
     created () {
-        for (let i=0;i<13;i++) {
+        for (let i=0;i<30;i++) {
             this.nav.push({
                 name: `第${i+1}页`
             })

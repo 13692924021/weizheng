@@ -48,6 +48,7 @@
 	cursor: pointer;
 	user-select: none;
 	transition: 0.9s;
+	color: #FFF;
 	&:hover {
 		box-shadow: 0 0 25px  #07acf8,0 0 50px  #07acf8,0 0 75px  #07acf8,0 0 100px  #07acf8;
 	}

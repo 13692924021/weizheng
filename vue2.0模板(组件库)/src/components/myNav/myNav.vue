@@ -1,9 +1,22 @@
 <style lang="less" scoped>
 .myNav {
-    width: 100%;
-    display: flex;
+    // width: 100%;
+    max-width: 100%;
+    display: inline-block;
+    white-space: nowrap;
+    >div {
+        display: inline-block;
+        vertical-align: middle;
+    }
     justify-content: space-between;
     align-items: center;
+    >div:first-child, >div:last-child {
+        cursor: pointer;
+        transition: 0.2s;
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
 }
 .navMain {
     // border: solid #333 1px;
@@ -11,7 +24,9 @@
     width: calc(100% - 2px);
     height: 50px;                            // nav的高度
     position: relative;
-    overflow: hidden;
+    overflow-x: auto;
+    margin: 0 10px;
+    
 }
 .leftDir {
     width: 0;
@@ -30,16 +45,18 @@
     border-bottom:solid 10px transparent;
 }
 .longBox {
-    width: 100%;
+    // width: 100%;
     height: 100%;
-    position: absolute;
+    // border: solid red 1px;
+    display: inline-block;
+    // position: absolute;
     transition: 0.3s linear;
     box-sizing: border-box;
     white-space: nowrap;
     div { box-sizing: border-box;transition: 0.3s linear; }
     >div{
         display: inline-block;
-        width: 20%;
+        width: 200px;
         height: 100%;
         >div {
             // border: solid #FFF 1px;
@@ -62,11 +79,11 @@
 <template>
     <div class="myNav">
         <div class="leftDir" @click="preNext(true)"></div>
-        <div class="navMain" ref="navMain">
+        <div class="navMain noBar" ref="navMain">
             <div class="longBox" :style="{ left: left+'px' }">
 
-                <!-- 每一个tab -->
-                <div v-for="(item,i) in list" :key="i" @click="handleClick(item,i)" :ref="'nav'+i" :style="{ width: 100/num + '%' }">
+                <!-- 每一个tab   -->
+                <div v-for="(item,i) in list" :key="i" @click="handleClick(item,i)" :ref="'nav'+i"  :style="{ width: itemWidth }">
                     <div :class="['ju al', { act: i==act }]">
                         {{item.name}}
                     </div>
@@ -105,70 +122,63 @@ export default {
         },
         num: {
             default: 5
+        },
+        itemWidth: {
+            default: "200px"
         }
     },
     watch: {
         active: {
             handler (val) {
-                this.act = val
-                setTimeout(() => {
-                    
-                    this.$refs['nav' + val][0].click()
-                },50)
+                if (this.list[val]) {
+                    this.act = val
+                    setTimeout(() => {
+                        this.handleClick(this.list[val], val)
+                    },50)
+                }
+                
                 
             },
             immediate: true
-        }
+        },
     }, 
     mounted () {
         let that = this
         window.addEventListener('resize', function (e) {
             e = e || window.event
-            that.fixLeft(e)  //这个实参未使用
         })
     },
     methods:{
         handleClick (item,i) {
+            let navMain = this.$refs.navMain
             let width = this.$refs.navMain.clientWidth
-            let navWidth = this.$refs.nav0[0].clientWidth
+            let navWidth = this.$refs['nav' + i][0]
 
-            this.left = -navWidth*i + ( width - navWidth )/2
-            this.fixLeft()
+            // navMain.scrollLeft = navWidth.offsetLeft - width/2 + navWidth.clientWidth/2
+            navMain.scrollTo({
+                left: navWidth.offsetLeft - width/2 + navWidth.clientWidth/2,
+                behavior: "smooth"
+            })
 
             this.act = i
-            this.$emit("on-click",item)
+            this.$emit("on-click",{item, i})
         },
         preNext (boo) {
+            let navMain = this.$refs.navMain
             let width = this.$refs.navMain.clientWidth
+            let left = navMain.scrollLeft
             if (!boo) {
-                this.left -= width
+                left += width
                 // 左边点击
             } else {
                 // 点击右边
-                this.left += width
+                left -= width
             }
-            this.fixLeft()
+            navMain.scrollTo({
+                left: left,
+                behavior: "smooth"
+            })
         },
-        fixLeft () {
-            try {
-                let width = this.$refs.navMain.clientWidth
-                let navWidth = this.$refs.nav0[0].clientWidth
-                let longWidth = this.list.length * navWidth
-
-                if (this.left > 0) {
-                    this.left = 0
-                }
-                // console.log(Math.abs(this.left) , (longWidth-width),-(longWidth-width) )
-                if ( Math.abs(this.left) >= (longWidth-width) ) {
-                    this.left = -(longWidth-width)
-                }
-
-            } catch {
-                
-            }
-            
-
-        }
     }
 }
 </script>

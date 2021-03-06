@@ -25,6 +25,14 @@ export default [
                 },
                 component: () => import("@/view/scrollNav/scrollNav.vue")
             },
+            {
+                path:"/index/css",
+                name: "css",
+                meta: {
+                    name: "CSS"
+                },
+                component: () => import("@/view/css/css.vue")
+            },
         ]
     },
     {

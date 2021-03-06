@@ -64,7 +64,11 @@ export default {
                     name: "滚动菜单",
                     children: []
                 },
-                
+                {
+                    path:"/index/css",
+                    name: "CSS",
+                    children: []
+                },
                 // {
                 //     path:"/",
                 //     name: "折叠2",
