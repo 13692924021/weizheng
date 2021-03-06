@@ -8,7 +8,7 @@
 .navMain {
     // border: solid #333 1px;
     box-sizing: border-box;
-    width: calc(100% - 50px);
+    width: calc(100% - 2px);
     height: 50px;                            // nav的高度
     position: relative;
     overflow: hidden;
@@ -162,6 +162,7 @@ export default {
                 if ( Math.abs(this.left) >= (longWidth-width) ) {
                     this.left = -(longWidth-width)
                 }
+
             } catch {
                 
             }
