@@ -12,12 +12,14 @@ export default {
                 { selection: true,  },
                 { title: "ID",key: 'id' },
                 { title: "name",key: 'name' },
+                { title: "createAt",key: 'createAt', time: true },
                 { title: "type",key: 'type',searchType: "select" },
             ],
             list: [
                 {
                     id: 1,
                     name: "name1",
+                    createAt: Date.now(),
                     type: 1
                 },
                 {

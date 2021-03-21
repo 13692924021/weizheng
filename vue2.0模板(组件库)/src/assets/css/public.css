@@ -130,14 +130,31 @@ div {
 .borderMove:hover i:nth-of-type(4) {
   top: 0% !important;
 }
-.borderMove::after {
-  width:25%;
+/* 按钮hover2 */
+.btnHover {
+  position: relative;
+  overflow:hidden;
+  transition: 0.3s;
+  outline: none;
+  border: none;
+  display: inline-block;
+  background: linear-gradient(to top, #128eb4, #129ab4);
+  padding: 0.5em 2em;
+  color: #FFF;
+  cursor: pointer;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+}
+.btnHover::after {
+  width:35%;
   height: 100%;
   position: absolute;
   background: rgba(255,255,255,0.5);
   display: block;
   content: "";
-  left:-34%;
+  left:-45%;
   transition: 0.4s;
   top:0;
   transform:skew(-25deg);
@@ -150,6 +167,6 @@ div {
   -ms-transition: 0.4s;
   -o-transition: 0.4s;
 }
-.borderMove:hover::after {
+.btnHover:hover::after {
   left: 130% !important;
 }
