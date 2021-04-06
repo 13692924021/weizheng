@@ -1,6 +1,6 @@
 <template>
     <div>
-        <myNav :list="nav" :num='6' :active="0"> </myNav>
+        <myNav :list="nav" :active="0" :num="6"> </myNav>
     </div>
 </template>
 
@@ -17,6 +17,7 @@ export default {
                 name: `第${i+1}页`
             })
         }
+
     }
 }
 </script>

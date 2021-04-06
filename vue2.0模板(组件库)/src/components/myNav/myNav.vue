@@ -1,6 +1,6 @@
 <style lang="less" scoped>
 .myNav {
-    // width: 100%;
+    width: 100%;
     max-width: 100%;
     display: inline-block;
     white-space: nowrap;
@@ -19,14 +19,14 @@
     }
 }
 .navMain {
-    // border: solid #333 1px;
     box-sizing: border-box;
     width: calc(100% - 2px);
     height: 50px;                            // nav的高度
     position: relative;
     overflow-x: auto;
     margin: 0 10px;
-    
+    position: relative;
+
 }
 .leftDir {
     width: 0;
@@ -49,7 +49,6 @@
     height: 100%;
     // border: solid red 1px;
     display: inline-block;
-    // position: absolute;
     transition: 0.3s linear;
     box-sizing: border-box;
     white-space: nowrap;
@@ -59,14 +58,12 @@
         width: 200px;
         height: 100%;
         >div {
-            // border: solid #FFF 1px;
+            // border: solid #000 1px;
             cursor: pointer;
             user-select: none;
             width: 100%;
             height: 100%;
-            border-right: 0;
-            // background: #03583F;
-            // color: #FFF;
+            // border-right: transparent 1px solid;
         }
     }
 }
@@ -84,7 +81,7 @@
 
                 <!-- 每一个tab   -->
                 <div v-for="(item,i) in list" :key="i" @click="handleClick(item,i)" :ref="'nav'+i"  :style="{ width: itemWidth }">
-                    <div :class="['ju al', { act: i==act }]">
+                    <div :class="['ju al', { act: i==act }]" >
                         {{item.name}}
                     </div>
                     
@@ -111,6 +108,7 @@ export default {
         return {
             act: 0,
             left: 0,
+            itemWidth: "100px"
         }
     },
     props: {
@@ -123,9 +121,6 @@ export default {
         num: {
             default: 5
         },
-        itemWidth: {
-            default: "200px"
-        }
     },
     watch: {
         active: {
@@ -136,17 +131,18 @@ export default {
                         this.handleClick(this.list[val], val)
                     },50)
                 }
-                
-                
             },
             immediate: true
         },
+
     }, 
     mounted () {
         let that = this
         window.addEventListener('resize', function (e) {
             e = e || window.event
         })
+        let width = this.$refs.navMain.clientWidth
+        this.itemWidth = width / this.num + "px"
     },
     methods:{
         handleClick (item,i) {

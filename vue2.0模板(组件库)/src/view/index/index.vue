@@ -7,6 +7,7 @@
     // height: 100%;
     // height: calc(100vh - 1px);
     background: #FCFCFC;
+    overflow-y: hidden;
     flex: 10;
     >div {
         height: 100%;
@@ -35,8 +36,8 @@
         <header class="ju">header</header>
     </div>
     <div class="Wrap">
-        <div class="menuWrap noBar">
-            <myMenu :list="list" @active="active" :activeName="activeName"></myMenu>
+        <div class="menuWrap">
+            <myMenu :list="list" @active="active" :activeName="activeName" class="noBar"></myMenu>
         </div>
 
         <div class="Main">
@@ -86,6 +87,7 @@ export default {
                         
                 //     ]
                 // },
+                
             ]
         }
     },
