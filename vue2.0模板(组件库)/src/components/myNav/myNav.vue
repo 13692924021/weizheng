@@ -140,11 +140,20 @@ export default {
         let that = this
         window.addEventListener('resize', function (e) {
             e = e || window.event
+            that.init()
         })
-        let width = this.$refs.navMain.clientWidth
-        this.itemWidth = width / this.num + "px"
+        that.init()
     },
     methods:{
+        init () {
+            try {
+                let width = this.$refs.navMain.clientWidth
+                this.itemWidth = width / this.num + "px"
+            } catch{
+
+            }
+            
+        },
         handleClick (item,i) {
             let navMain = this.$refs.navMain
             let width = this.$refs.navMain.clientWidth
