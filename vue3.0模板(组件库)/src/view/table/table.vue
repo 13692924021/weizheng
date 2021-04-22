@@ -12,10 +12,9 @@ export default {
                 { selection: true,  },
                 { title: "ID",key: 'id' },
                 { title: "name",key: 'name' },
-                { title: "type",key: 'type' },
+                { title: "type",key: 'type',searchType: "select" },
             ],
             list: [
-                
                 {
                     id: 1,
                     name: "name1",
@@ -42,6 +41,16 @@ export default {
                     type:5
                 },
             ]
+        }
+    },
+    created () {
+        this.list=[]
+        for(let i = 0;i< 50; i++) {
+            this.list.push({
+                id: i+1,
+                name: "name" + (i+1),
+                type: i % 3
+            })
         }
     }
 }

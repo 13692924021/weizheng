@@ -12,11 +12,17 @@ export default [
             {
                 path:"/index/table",
                 name: "table",
+                meta: {
+                    name:"Table表格"
+                },
                 component: () => import("@/view/table/table.vue")
             },
             {
                 path:"/index/scrollNav",
                 name: "scrollNav",
+                meta: {
+                    name: "滚动菜单"
+                },
                 component: () => import("@/view/scrollNav/scrollNav.vue")
             },
         ]

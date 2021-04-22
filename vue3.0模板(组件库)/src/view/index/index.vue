@@ -1,7 +1,7 @@
 <style lang="scss" scoped>
 .Wrap {
     display:grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 250px 1fr;
     height: 100%;
     height: calc(100vh - 1px);
     background: #FCFCFC;
@@ -70,6 +70,14 @@ export default {
                 },
             ]
         }
+    },
+    watch: {
+        "$route": {
+            handler () {
+                this.activeName = this.$route.meta.name
+            },
+            immediate: true
+        },
     },
     created () {
         // this.list= []
