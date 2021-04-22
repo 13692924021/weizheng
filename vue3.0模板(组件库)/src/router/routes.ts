@@ -6,7 +6,7 @@ export default [
     {
         path:"/index",
         name: "index",
-        retirect: "/index/table",
+        redirect: "/index/table",
         component: () => import("@/view/index/index.vue"),
         children: [
             {

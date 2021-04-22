@@ -51,23 +51,23 @@ export default {
                     children: []
                 },
                 
-                // {
-                //     path:"/",
-                //     name: "折叠2",
-                //     children: [
-                //         {
-                //             path:"/index/child1",
-                //             name: "子菜单3",
-                //             children: []
-                //         },
-                //         {
-                //             path:"/index/child2",
-                //             name: "子菜单4",
-                //             children: []
-                //         },
+                {
+                    path:"/",
+                    name: "折叠2",
+                    children: [
+                        {
+                            path:"/index/child1",
+                            name: "子菜单3",
+                            children: []
+                        },
+                        {
+                            path:"/index/child2",
+                            name: "子菜单4",
+                            children: []
+                        },
                         
-                //     ]
-                // },
+                    ]
+                },
             ]
         }
     },
