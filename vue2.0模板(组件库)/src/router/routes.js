@@ -33,6 +33,14 @@ export default [
                 },
                 component: () => import("@/view/css/css.vue")
             },
+            {
+                path:"/index/list",
+                name: "list",
+                meta: {
+                    name: "LIST"
+                },
+                component: () => import("@/view/list/list.vue")
+            },
         ]
     },
     {

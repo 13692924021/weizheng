@@ -211,6 +211,9 @@
         background:#161795 !important;
         color: #FFF  !important;
     }
+    .margin2px {
+        margin: 0 2px;
+    }
 </style>
 <template>
     <div class="TableWrap">
@@ -241,7 +244,7 @@
                         <option value="" selected>年份</option>
                         <option v-for="(item,i) in yearList" :key="i" :value="item">{{item}}</option>
                     </select>
-                    <select v-model="month" @change="selectColumns">
+                    <select class='margin2px' v-model="month" @change="selectColumns">
                         <option value="" selected>月份</option>
                         <option v-for="(item,i) in monthList" :key="i" :value="item">{{item}}</option>
                     </select>

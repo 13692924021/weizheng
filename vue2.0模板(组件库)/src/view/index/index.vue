@@ -70,6 +70,11 @@ export default {
                     name: "CSS",
                     children: []
                 },
+                {
+                    path:"/index/list",
+                    name: "LIST",
+                    children: []
+                },
                 // {
                 //     path:"/",
                 //     name: "折叠2",
