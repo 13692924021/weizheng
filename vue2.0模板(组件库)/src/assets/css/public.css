@@ -11,7 +11,9 @@ div {
   box-sizing: border-box;
 }
 .clearBoth::after { display: block; content: "";clear: both; }
+.clearBoth>div, .clearBoth>li { float: left }
 .relative { position: relative; }
+.tc { text-align: center }
 
 /* 常用flex布局 */
 .flex { display: flex; }
@@ -62,6 +64,24 @@ div {
   scrollbar-color: #bfbfbf  rgb(239, 239, 239); 
   scrollbar-width: none;
   scrollbar-width: thin;   
+
+  /* IE浏览器 */
+  /*三角箭头的颜色*/
+  scrollbar-arrow-color: #000;
+  /*滚动条滑块按钮的颜色*/
+  scrollbar-face-color: #bfbfbf;
+  /*滚动条整体颜色*/
+  scrollbar-highlight-color: #FFF;
+  /*滚动条阴影*/
+  scrollbar-shadow-color: #FFF;
+  /*滚动条轨道颜色*/
+  /* scrollbar-track-color: #0066ff; */
+  /*滚动条3d亮色阴影边框的外观颜色——左边和上边的阴影色*/
+  scrollbar-3dlight-color:#0099dd;
+  /*滚动条3d暗色阴影边框的外观颜色——右边和下边的阴影色*/
+  scrollbar-darkshadow-color: #0099dd;
+  /*滚动条基准颜色*/
+  scrollbar-base-color: #0099dd;
 }
 .noBar { -ms-overflow-style:none !important;scrollbar-width: none !important; }  
 .noBar::-webkit-scrollbar { display: none !important; }

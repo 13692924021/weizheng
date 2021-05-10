@@ -5,6 +5,7 @@
     padding: 30px;
 }
 
+
 </style>
 
 <template>
@@ -16,7 +17,8 @@
         <br>
         <br>
         <Button class="btnHover" type="primary">iview btn</Button>
-           
+        <br><br>
+        <p class="color-2 bg-1">这是一个全局颜色</p>
    </div>
 </template>
 

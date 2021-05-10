@@ -1,5 +1,6 @@
 <style lang="less">
 @import url("~@/assets/css/public.css");
+@import url("~@/assets/css/color.less");
 </style>
 
 <template>

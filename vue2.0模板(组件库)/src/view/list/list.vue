@@ -13,7 +13,7 @@
     }
 
     div {
-        border: solid @primary 2px;
+        border: solid #000 2px;
         float: left;
         height: 300px;
         margin-right: 1%;
