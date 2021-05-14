@@ -23,6 +23,16 @@ Vue.component("myMenu", myMenu)
 import ViewUI from 'view-design';
 import './main.less';
 
+// 返回數字的千分位格式
+Vue.prototype.format = function (n) {
+    n = Number(n)
+    var str = n.toString();
+    str = str.replace(/[A-z]+/g, "")
+    var reg = str.indexOf(".") > -1 ? /(\d)(?=(\d{3})+\.)/g : /(\d)(?=(?:\d{3})+$)/g
+    let num = str.replace(reg,"$1,");
+    return num
+},
+
 Vue.use(ViewUI);
 
 new Vue({
