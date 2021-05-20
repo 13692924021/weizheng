@@ -86,6 +86,26 @@ div {
 .noBar { -ms-overflow-style:none !important;scrollbar-width: none !important; }  
 .noBar::-webkit-scrollbar { display: none !important; }
 
+/* 文字显示 */
+.c1 {
+  display: -webkit-box; 
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1; 
+  overflow: hidden;
+}
+.c2 {
+  display: -webkit-box; 
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp:2; 
+  overflow: hidden;
+}
+.c3 {
+  display: -webkit-box; 
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; 
+  overflow: hidden;
+}
+
 /* 按钮hover 1*/
 .borderMove {
   position: relative;

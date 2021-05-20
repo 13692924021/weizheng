@@ -6,12 +6,6 @@ Vue.use(router)
 
 Vue.config.productionTip = false
 
-import view from 'view-design';
-import 'view-design/dist/styles/iview.css';
-Vue.use(view)
-
-import '@/index.less'
-
 
 import axios from 'axios'
 
@@ -21,6 +15,12 @@ axios.defaults.baseURL = '/api/'
 window.token = "5f9cbbee3aff973f275a2ff15f9cbbeead8319007"
 
 Vue.prototype.$axios = axios
+
+import ElementUI from 'element-ui';
+
+Vue.use(ElementUI)
+// import "./element-variables .scss"
+import "@/assets/theme/index.css"
 
 new Vue({
   router,

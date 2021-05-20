@@ -35,7 +35,36 @@ Vue.prototype.format = function (n) {
 
 Vue.use(ViewUI);
 
+
+//vuex
+import store from "@/vuex/store.js"
+
+// 多语言
+import customZhCn from '@/locale/lang/zh-CN'
+import customZhTw from '@/locale/lang/zh-TW'
+import customEnUs from '@/locale/lang/en-US'
+const messages = {
+//   'zh-CN': Object.assign(zhCnLocale, customZhCn),
+//   'zh-TW': Object.assign(zhTwLocale, customZhTw),
+//   'en-US': Object.assign(enUsLocale, customEnUs)
+    'zh-CN':  customZhCn,
+    'zh-TW':  customZhTw,
+    'en-US':  customEnUs
+}
+let lang = localStorage.getItem("lang") || 'zh-TW'
+store.commit("setAppData", { key: "lang", value: lang })
+
+Vue.prototype.l = function (data) {
+    // console.log(123)
+    if (messages[store.state.app.lang][data]) {
+        return messages[store.state.app.lang][data]
+    } else {
+        return data
+    } 
+}
+
 new Vue({
+    store,
     router,
     render: h => h(App),
 }).$mount('#app')
