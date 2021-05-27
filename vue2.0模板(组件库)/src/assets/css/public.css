@@ -33,6 +33,9 @@ div {
 .size21 { font-size: 21px; }.size22 { font-size: 22px; }.size23 { font-size: 23px; }
 .size24 { font-size: 24px; }.size25 { font-size: 25px; }.size26 { font-size: 26px; }
 .size27 { font-size: 27px; }.size28 { font-size: 28px; }.size29 { font-size: 29px; }
+.size30 { font-size: 30px; }.size31 { font-size: 31px; }.size32 { font-size: 32px; }
+.size33 { font-size: 33px; }.size34 { font-size: 34px; }.size35 { font-size: 35px; }
+.size36 { font-size: 36px; }.size37 { font-size: 37px; }.size38 { font-size: 38px; }
 .cursor { cursor: pointer; }
 .user-select { user-select: none }
 

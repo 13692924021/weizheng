@@ -63,6 +63,10 @@ Vue.prototype.l = function (data) {
     } 
 }
 
+import {conn, WebIM} from "@/assets/js/websdk.js"
+Vue.prototype.$conn = conn
+Vue.prototype.$WebIM = WebIM
+
 new Vue({
     store,
     router,
