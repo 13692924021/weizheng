@@ -1,6 +1,10 @@
 import config from "./websdkconfig.js"
 
 import WebIM from "easemob-websdk"
+import webrtc from 'easemob-webrtc'
+
+
+
 WebIM.config = config
 const conn = WebIM.conn = new WebIM.connection({
     appKey: WebIM.config.appkey,
@@ -70,5 +74,59 @@ var options = {
 };
 // conn.open(options);
 
+var call = new webrtc.Call({
+    connection: conn, // WebIM 的链接信息
+    mediaStreamConstaints: {
+            audio: true,
+            video: true
+            /**
+            * 修改默认摄像头，可以按照以下设置，不支持视频过程中切换
+            * video:{ 'facingMode': "user" } 调用前置摄像头
+            * video: { facingMode: { exact: "environment" } } 后置
+            */
+    },
 
-export {conn, WebIM}
+    listener: {
+        //主叫收到 被叫 点接通
+        onAcceptCall: function (from, options) {
+            console.log('onAcceptCall:: 对方点了接听', 'from: ', from, 'options: ', options);
+        },
+        //通过streamType区分视频流和音频流，streamType: 'VOICE'(音频流)，'VIDEO'(视频流)
+        onGotRemoteStream: function (stream, streamType) {
+            console.log('onGotRemoteStream::', 'stream: ', stream, 'streamType: ', streamType);
+            var video = document.getElementById('video');
+            video.srcObject = stream;
+            video.play();
+        },
+        
+        onGotLocalStream: function (stream, streamType) {
+            console.log('onGotLocalStream::接通， 建立视频！！！', 'stream:', stream, 'streamType: ', streamType);
+            var video = document.getElementById('localVideo');
+            video.srcObject = stream;
+            video.play();
+
+        },
+        // 被叫方收到呼叫
+        onRinging: function (caller, streamType) {
+                        console.log("onRinging 电话来啦！！！", caller)
+        },
+        //收到通话结束回调
+        onTermCall: function (reason) {
+            console.log('onTermCall::挂断');
+            console.log('reason:', reason);
+        },
+        onIceConnectionStateChange: function (iceState) {
+            console.log('onIceConnectionStateChange::', 'iceState:', iceState);
+        },
+        // 通话断网监听
+        onNetWorkDisconnect(endType) { // endType: local || remote, 哪一端断网
+            console.log('1v1 onNetWorkDisconnect', endType);
+        },
+        onError: function (e) {
+            console.log(e);
+        }
+     }
+});
+
+
+export {conn, WebIM, call}
