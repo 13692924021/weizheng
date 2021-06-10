@@ -18,12 +18,22 @@
         <br>
         <Button class="btnHover" type="primary">iview btn</Button>
         <br><br>
-        <p class="color-2 bg-1">这是一个全局颜色</p>
+        <div>
+            <input type="text" ref="dom" v-model="num1">{{num1}}
+        </div>
    </div>
 </template>
 
 <script>
 export default {
+    data () {
+        return {
+            num1: 199.7777777
+        }
+    },
+    mounted () {
+        this.$refs.dom.value='123'
+    },
 
 }
 </script>
