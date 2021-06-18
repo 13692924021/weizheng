@@ -1,0 +1,215 @@
+body,html,ul,dl {
+  padding: 0;
+  margin: 0;
+  font-size:14px;
+  color:#333;
+}
+a {
+  text-decoration: none;
+}
+view {
+  box-sizing: border-box;
+}
+.clearBoth::after { display: block; content: "";clear: both; }
+.clearBoth>div, .clearBoth>li { float: left }
+.relative { position: relative; }
+.tc { text-align: center }
+.float { float: left; }
+
+/* 常用flex布局 */
+.flex { display: flex; }
+.ju { display:flex; justify-content: center; }
+.al { display:flex; align-items: center; }
+.sb { display:flex; justify-content: space-between; }
+.sa{ display:flex; justify-content: space-around; }
+.flex-end{ display:flex; justify-content: flex-end; }
+.columns { display: flex; flex-direction: column; }
+
+/* 字体 */
+.bold { font-weight: bold }
+.whiteColor { color: white; }
+.size12 { font-size: 12upx; }.size13 { font-size: 13upx; }.size14 { font-size: 14upx; }
+.size15 { font-size: 15upx; }.size16 { font-size: 16upx; }.size17 { font-size: 17upx; }
+.size18 { font-size: 18upx; }.size19 { font-size: 19upx; }.size20 { font-size: 20upx; }
+.size21 { font-size: 21upx; }.size22 { font-size: 22upx; }.size23 { font-size: 23upx; }
+.size24 { font-size: 24upx; }.size25 { font-size: 25upx; }.size26 { font-size: 26upx; }
+.size27 { font-size: 27upx; }.size28 { font-size: 28upx; }.size29 { font-size: 29upx; }
+.size30 { font-size: 30upx; }.size31 { font-size: 31upx; }.size32 { font-size: 32upx; }
+.size33 { font-size: 33upx; }.size34 { font-size: 34upx; }.size35 { font-size: 35upx; }
+.size36 { font-size: 36upx; }.size37 { font-size: 37upx; }.size38 { font-size: 38upx; }
+.size39 { font-size: 39upx; }.size40 { font-size: 40upx; }.size41 { font-size: 41upx; }
+.cursor { cursor: pointer; }
+.user-select { user-select: none }
+
+ /* hover，active */
+ .hover:hover {opacity: 0.8 }
+ .op:active { opacity: 0.6 !important }
+
+ /* 滚动条 */
+.bar::-webkit-scrollbar{
+  width:10px;
+  height:10px;
+}
+.bar::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.bar::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.bar::-webkit-scrollbar-thumb:hover{
+  background: #333;
+}
+.bar::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.bar {
+  overflow: auto;
+  scrollbar-color: #bfbfbf  rgb(239, 239, 239); 
+  scrollbar-width: none;
+  scrollbar-width: thin;   
+
+  /* IE浏览器 */
+  /*三角箭头的颜色*/
+  scrollbar-arrow-color: #000;
+  /*滚动条滑块按钮的颜色*/
+  scrollbar-face-color: #bfbfbf;
+  /*滚动条整体颜色*/
+  scrollbar-highlight-color: #FFF;
+  /*滚动条阴影*/
+  scrollbar-shadow-color: #FFF;
+  /*滚动条轨道颜色*/
+  /* scrollbar-track-color: #0066ff; */
+  /*滚动条3d亮色阴影边框的外观颜色——左边和上边的阴影色*/
+  scrollbar-3dlight-color:#0099dd;
+  /*滚动条3d暗色阴影边框的外观颜色——右边和下边的阴影色*/
+  scrollbar-darkshadow-color: #0099dd;
+  /*滚动条基准颜色*/
+  scrollbar-base-color: #0099dd;
+}
+.noBar { -ms-overflow-style:none !important;scrollbar-width: none !important; }  
+.noBar::-webkit-scrollbar { display: none !important; }
+
+/* 按钮hover 1*/
+.borderMove {
+  position: relative;
+  overflow:hidden;
+  transition: 0.3s;
+  outline: none;
+  border: none;
+  display: inline-block;
+  background: linear-gradient(to top, #128eb4, #129ab4);
+  padding: 0.5em 2em;
+  color: #FFF;
+  cursor: pointer;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+}
+.borderMove>i:first-child {
+  width: 100%;
+  height: 2px;
+  left: -100%;
+  top: 0;
+}
+.borderMove  >i:nth-of-type(2) {
+  width: 2px;
+  height: 100%;
+  right: 0%;
+  top: -100%;
+}
+.borderMove  >i:nth-of-type(3) {
+  height: 2px;
+  width: 100%;
+  left: 100%;
+  bottom: 0%;
+}
+.borderMove  >i:nth-of-type(4) {
+  width: 2px;
+  height: 100%;
+  left: 0%;
+  top: 100%;
+}
+
+.borderMove > i{
+  position: absolute;
+  background: rgb(65, 6, 204);
+  transition: 0.6s;
+  -webkit-transition: 0.6s;
+  -moz-transition: 0.6s;
+  -ms-transition: 0.6s;
+  -o-transition: 0.6s;
+}
+
+.borderMove:hover > i:first-child {
+  left: 0 !important;
+}
+.borderMove:hover i:nth-of-type(2) {
+  top: 0 !important;
+}
+.borderMove:hover > i:nth-of-type(3) {
+  left: 0 !important;
+}
+.borderMove:hover i:nth-of-type(4) {
+  top: 0% !important;
+}
+/* 按钮hover2 */
+.btnHover {
+  position: relative;
+  overflow:hidden;
+  transition: 0.3s;
+  outline: none;
+  border: none;
+  display: inline-block;
+  background: linear-gradient(to top, #128eb4, #129ab4);
+  padding: 0.5em 2em;
+  color: #FFF;
+  cursor: pointer;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+}
+.btnHover::after {
+  width:35%;
+  height: 100%;
+  position: absolute;
+  background: rgba(255,255,255,0.5);
+  display: block;
+  content: "";
+  left:-45%;
+  transition: 0.4s;
+  top:0;
+  transform:skew(-25deg);
+  -webkit-transform:skew(-25deg);
+  -moz-transform:skew(-25deg);
+  -ms-transform:skew(-25deg);
+  -o-transform:skew(-25deg);
+  -webkit-transition: 0.4s;
+  -moz-transition: 0.4s;
+  -ms-transition: 0.4s;
+  -o-transition: 0.4s;
+}
+.btnHover:hover::after {
+  left: 130% !important;
+}
+.c1 {
+    display: -webkit-box; 
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1; 
+    overflow: hidden;
+}
+.c2 {
+    display: -webkit-box; 
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp:2; 
+    overflow: hidden;
+}
+.c3 {
+    display: -webkit-box; 
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; 
+    overflow: hidden;
+}
