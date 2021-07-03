@@ -31,30 +31,30 @@
 export default {
     data () {
         return {
-            user: "lwz",
+            user: "lwzA1",
             pwd: "123456",
             user1: "lwz2",
             pwd1: "123456",
             client: {},
-            client1: {}
+            client1: {},
+            emedia: null
         }
+    },
+    created () {
+
+    },
+    beforeDestroy () {
+        this.emedia.mgr.exitConference()
     },
     methods:{
         endCall () {
-            this.$call.endCall()
+
         },
         acceptCall () {
-            this.$call.acceptCall()
+
         },
         call () {
-            let config = {
-                push: false, // 对方(app端)不在线时是否推送
-                timeoutTime: 30000, // 超时时间
-                txtMsg: 'I gave you a video call.', // 给对方发送的消息
-                pushMsg: 'user is calling you' //推送内容
-            }
-            this.$call.caller = '呼叫者'; // 指定呼叫方名字
-            this.$call.makeVideoCall("lwz2",null,true,true,config);
+            
         },
         send () {
             let id = this.$conn.getUniqueId();                 // 生成本地消息id
@@ -84,13 +84,43 @@ export default {
         login () {
             let that = this
             var options = { 
-                user: 'lwz',
-                pwd: '123456',
+                user: this.user,
+                pwd: this.pwd,
                 appKey: this.$WebIM.config.appkey,
-                success (res) {
+                async success (res) {
                     console.log(res)
                     that.client = res.user
-                    
+
+                    let memName = "1115210517085955#972307875_" + this.user
+                    that.emedia = require("@/assets/js/emedia.js").emedia
+                    // console.log(that.emedia,memName, res.access_token)
+                    that.emedia.mgr.setIdentity(memName, res.access_token)
+
+                    var params = {
+                        roomName: this.user, // string 房间名称 必需
+                        password:"123456", // string 房间密码 必需
+                        role: 3,  // number 进入会议的角色 1: 观众  3:主播 必需
+                        config:{
+                            rec:false, //是否开启录制会议
+                            recMerge:false, //是否开启合并录制
+                            supportWechatMiniProgram: true //是否允许小程序加入会议
+                        }
+                    }
+
+                    const user_room = await emedia.mgr.joinRoom(params);
+                    // console.log(user_room)
+
+                    var constaints = { // 发布音频流的配置参数, Object 必需。 video或audio属性 至少存在一个
+                        audio: true, // 是否发布音频
+                        video: true  // 是否发布视频
+                    }
+                    var ext = {} // 发布流的扩展信息 Object 非必需。会议其他成员可接收到
+
+                    const pushedStream = await that.emedia.mgr.publish(constaints, ext);
+                    console.log(111,pushedStream)
+                    var videoTag = document.getElementById('localVideo') //需要显示本地流的 video 标签
+                    emedia.mgr.streamBindVideo(pushedStream, videoTag);
+
                 },
                 error (e) {
                     console.log(e)
@@ -118,6 +148,7 @@ export default {
             this.$conn.close()
             this.client = {}
             this.client1 = {}
+            this.emedia.mgr.exitConference()
         }
     }
 }

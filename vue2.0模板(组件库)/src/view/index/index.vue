@@ -75,6 +75,11 @@ export default {
                     name: "LIST",
                     children: []
                 },
+                {
+                    path:"/index/call",
+                    name: "CALL",
+                    children: []
+                },
                 // {
                 //     path:"/",
                 //     name: "折叠2",

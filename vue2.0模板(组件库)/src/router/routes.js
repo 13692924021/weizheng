@@ -41,6 +41,14 @@ export default [
                 },
                 component: () => import("@/view/list/list.vue")
             },
+            {
+                path:"/index/call",
+                name: "call",
+                meta: {
+                    name: "CALL"
+                },
+                component: () => import("@/view/call/call.vue")
+            },
         ]
     },
     {

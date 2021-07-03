@@ -102,7 +102,7 @@ var call = new webrtc.Call({
         onGotLocalStream: function (stream, streamType) {
             console.log('onGotLocalStream::接通， 建立视频！！！', 'stream:', stream, 'streamType: ', streamType);
             var video = document.getElementById('localVideo');
-            video.srcObject = stream;
+            video.srcObject = JSON.parse(JSON.stringify(stream));
             video.play();
 
         },

@@ -19,7 +19,7 @@
         <Button class="btnHover" type="primary">iview btn</Button>
         <br><br>
         <div>
-            <input type="text" ref="dom" v-model="num1">{{num1}}
+            <input type="text" ref="dom" v-model="num1">{{format(num1)}}
         </div>
    </div>
 </template>
